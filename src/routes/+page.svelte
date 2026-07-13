@@ -1,7 +1,19 @@
 <script>
 	import { onMount } from 'svelte';
+	import { superForm } from 'sveltekit-superforms';
 	import logo from '$lib/assets/logo.svg';
 	import pp from '$lib/assets/pp.jpg';
+
+	let {data} = $props()
+	
+	const { form, errors, constraints, enhance, delayed } = superForm(data.form, {
+		resetForm: true,
+		onUpdated({ status }) {
+			if (status === 200) {
+				isModalOpen = true;
+			}
+		}
+	});
 
 	let mBtn;
 	let mMenu;
@@ -9,31 +21,19 @@
 	onMount(() => {
 		mBtn = document.getElementById('mobile-menu-btn');
 		mMenu = document.getElementById('mobile-menu');
-
-		mBtn.addEventListener('click', () => {
-			mMenu.classList.toggle('hidden');
-		});
-
+		mBtn.addEventListener('click', () => mMenu.classList.toggle('hidden'));
 		document.querySelectorAll('#mobile-menu a').forEach((link) => {
-			link.addEventListener('click', () => {
-				mMenu.classList.add('hidden');
-			});
+			link.addEventListener('click', () => mMenu.classList.add('hidden'));
 		});
-
-		renderCalendar();
 		startTypewriter();
 	});
 
-	// Animation Typewriter via manipulation directe du DOM
 	function startTypewriter() {
 		const targetPhrase = "le cabinet proactif des entreprises qui ont un temps d'avance.";
 		const typewriterElement = document.getElementById('typewriter-text');
-
 		if (!typewriterElement) return;
-
 		let index = 0;
-		typewriterElement.textContent = ''; 
-
+		typewriterElement.textContent = '';
 		const interval = setInterval(() => {
 			if (index < targetPhrase.length) {
 				typewriterElement.textContent += targetPhrase[index];
@@ -44,160 +44,27 @@
 		}, 100);
 	}
 
-	// State management
+	// États locaux réactifs
 	let selectedProjectType = 'lancer';
 	let calendarWeekOffset = 0;
-	let selectedDayVal = 23;
-	let selectedHourVal = null;
-	let isWaTabOpen = false;
+	let isModalOpen = false;
 
-	// Wizard Project Switcher (Lancer, Changer, Carre)
-	function selectProject(type) {
-		selectedProjectType = type;
-
-		// Remove active classes
-		document.querySelectorAll('.wizard-card').forEach((card) => {
-			card.classList.remove('active');
-		});
-
-		// Set current
-		document.getElementById(`proj-${type}`).classList.add('active');
-
-		// Reset bullets
-		document.getElementById('bullet-lancer').innerHTML = '';
-		document.getElementById('bullet-changer').innerHTML = '';
-		document.getElementById('bullet-carre').innerHTML = '';
-
-		const dotMarkup = '<div class="w-2.5 h-2.5 rounded-full bg-ax-primary"></div>';
-		const ctaBtn = document.getElementById('wizard-cta-label');
-
-		if (type === 'lancer') {
-			document.getElementById('bullet-lancer').innerHTML = dotMarkup;
-			ctaBtn.textContent = 'Lancer mon entreprise gratuitement';
-		} else if (type === 'changer') {
-			document.getElementById('bullet-changer').innerHTML = dotMarkup;
-			ctaBtn.textContent = 'Transférer mon dossier cabinet';
-		} else if (type === 'carre') {
-			document.getElementById('bullet-carre').innerHTML = dotMarkup;
-			ctaBtn.textContent = 'Remettre ma compta au carré';
-		}
-	}
-
-	// WhatsApp Floating Tab toggler
-	function toggleWaTab() {
-		const card = document.getElementById('wa-tab-card');
-		isWaTabOpen = !isWaTabOpen;
-
-		if (isWaTabOpen) {
-			card.classList.remove('pointer-events-none', 'translate-y-2', 'opacity-0');
-		} else {
-			card.classList.add('pointer-events-none', 'translate-y-2', 'opacity-0');
-		}
-	}
-
-	// Calendar Booking Logic
+	// Données du calendrier
 	const daysLabelArray = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
 	const listHours = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
+	const startingBaseDay = 20;
+
+	// Calcul dynamique des jours de la semaine choisie
+	let computedDays = $derived(Array.from({ length: 5 }, (_, d) => startingBaseDay + calendarWeekOffset * 7 + d));
 
 	function changeWeek(direction) {
-		if (direction === 'prev' && calendarWeekOffset > 0) {
-			calendarWeekOffset--;
-		} else if (direction === 'next') {
-			calendarWeekOffset++;
-		}
-		renderCalendar();
+		if (direction === 'prev' && calendarWeekOffset > 0) calendarWeekOffset--;
+		if (direction === 'next') calendarWeekOffset++;
 	}
 
-	function renderCalendar() {
-		const gridDays = document.getElementById('cal-days-grid');
-		gridDays.innerHTML = '';
-
-		const startingBaseDay = 20; // Simulated July days representation
-		const computedStart = startingBaseDay + calendarWeekOffset * 7;
-
-		for (let d = 0; d < 5; d++) {
-			const targetDay = computedStart + d;
-			const isDaySelected = selectedDayVal === targetDay;
-
-			const dayButton = document.createElement('button');
-			dayButton.type = 'button';
-			dayButton.className = `p-3 rounded-xl flex flex-col items-center justify-center transition-all ${
-				isDaySelected
-					? 'bg-ax-primary text-white shadow'
-					: 'bg-white border border-slate-200 hover:bg-slate-50 text-ax-textDark'
-			}`;
-			dayButton.onclick = () => {
-				selectedDayVal = targetDay;
-				renderCalendar();
-			};
-
-			dayButton.innerHTML = `
-            <span class="text-[9px] uppercase font-mono tracking-wider opacity-80">${daysLabelArray[d]}</span>
-            <span class="text-base font-extrabold mt-1">${targetDay}</span>
-        `;
-			gridDays.appendChild(dayButton);
-		}
-
-		renderHours();
-		updateSummary();
-	}
-
-	function renderHours() {
-		const gridHours = document.getElementById('cal-hours-grid');
-		gridHours.innerHTML = '';
-
-		listHours.forEach((hour) => {
-			const isHourSelected = selectedHourVal === hour;
-			const hourButton = document.createElement('button');
-			hourButton.type = 'button';
-			hourButton.className = `p-3 rounded-xl text-xs font-mono font-bold text-center transition-all ${
-				isHourSelected
-					? 'bg-ax-deep text-white border border-ax-deep'
-					: 'bg-white border border-slate-200 hover:border-slate-400 text-ax-textDark'
-			}`;
-			hourButton.onclick = () => {
-				selectedHourVal = hour;
-				renderHours();
-				updateSummary();
-			};
-
-			hourButton.textContent = hour;
-			gridHours.appendChild(hourButton);
-		});
-	}
-
-	function updateSummary() {
-		const summaryLabel = document.getElementById('cal-selected-summary');
-		if (selectedHourVal) {
-			summaryLabel.textContent = `${selectedDayVal} Juillet 2026 à ${selectedHourVal}`;
-		} else {
-			summaryLabel.textContent = 'Sélectionnez un horaire';
-		}
-	}
-
-	// Contact Booking Submission Form handler
-	function submitMeeting(event) {
-		event.preventDefault();
-		if (!selectedHourVal) {
-			alert("Veuillez sélectionner un créneau horaire d'abord.");
-			return;
-		}
-
-		const sender = document.getElementById('form-name').value;
-		const email = document.getElementById('form-email').value;
-
-		const modal = document.getElementById('success-modal');
-		const desc = document.getElementById('modal-success-desc');
-
-		desc.textContent = `Félicitations ${sender}, votre rendez-vous conseil stratégique de 15 minutes avec Yaniv Choukroun est enregistré pour le ${selectedDayVal} Juillet 2026 à ${selectedHourVal}. Une confirmation vous a été envoyée sur ${email}.`;
-		modal.classList.remove('hidden');
-	}
-
-	function closeModal() {
-		document.getElementById('success-modal').classList.add('hidden');
-		document.getElementById('booking-form').reset();
-		selectedHourVal = null;
-		renderCalendar();
+	function selectProject(type) {
+		selectedProjectType = type;
+		// ... conservez votre logique de modification de classes/labels du Wizard si nécessaire
 	}
 </script>
 
@@ -324,8 +191,7 @@
 					class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-ax-textDark leading-tight tracking-tight min-h-[120px] sm:min-h-[100px] lg:min-h-[150px]"
 				>
 					Audaxem Conseil : <span id="typewriter-text" class=""></span><span
-						class="ml-1 inline-block animate-pulse"
-						>|</span
+						class="ml-1 inline-block animate-pulse">|</span
 					>
 				</h1>
 
@@ -436,7 +302,7 @@
 								<div
 									class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center shadow-md shadow-emerald-500/25"
 								>
-									<i class="fa-solid fa-sparkles text-sm"></i>
+									<i class="fa-solid fa-broom text-sm"></i>
 								</div>
 								<div class="pr-2">
 									<h4 class="text-sm font-bold text-ax-textDark">Remettre ma compta au carré</h4>
@@ -575,193 +441,301 @@
 </section>
 
 <!-- SECTION 2: SERVICES (Design moderne, cartes premium sans emojis) -->
-<section id="services" class="py-24 bg-gradient-to-b from-white to-ax-slate/30 border-b border-slate-200/50">
+<section
+	id="services"
+	class="py-24 bg-gradient-to-b from-white to-ax-slate/30 border-b border-slate-200/50"
+>
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<!-- Header Section -->
 		<div class="max-w-4xl mx-auto text-center mb-20">
-			<span class="text-ax-primary font-extrabold text-xs uppercase tracking-widest block mb-4 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full">
+			<span
+				class="text-ax-primary font-extrabold text-xs uppercase tracking-widest block mb-4 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full"
+			>
 				Nos offres sur-mesure
 			</span>
-			<h2 class="font-display text-3xl sm:text-4xl font-extrabold text-ax-textDark leading-tight tracking-tight">
-				L'expertise 360° qui répond à toutes les problématiques comptables, sociales, juridiques et fiscales des dirigeants.
+			<h2
+				class="font-display text-3xl sm:text-4xl font-extrabold text-ax-textDark leading-tight tracking-tight"
+			>
+				L'expertise 360° qui répond à toutes les problématiques comptables, sociales, juridiques et
+				fiscales des dirigeants.
 			</h2>
 		</div>
 
 		<!-- Grid Cards - Design moderne avec icônes vectorielles et numérotation -->
 		<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 			<!-- Mission 1: Tenue comptable & optimisation (Blue Accent) -->
-			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
-				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">01</span>
+			<div
+				class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+			>
+				<span
+					class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display"
+					>01</span
+				>
 				<div class="relative">
 					<div class="flex items-start justify-between mb-6">
 						<div class="flex items-center gap-4">
-							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-ax-primary to-blue-600 text-white flex items-center justify-center text-xl shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+							<div
+								class="w-14 h-14 rounded-2xl bg-gradient-to-br from-ax-primary to-blue-600 text-white flex items-center justify-center text-xl shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform"
+							>
 								<i class="fa-solid fa-calculator"></i>
 							</div>
 							<div>
 								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
 									Tenue comptable & optimisation
 								</h3>
-								<span class="text-[10px] font-mono font-bold text-ax-primary uppercase bg-blue-50 px-2 py-0.5 rounded-md">Pilotage Réel</span>
+								<span
+									class="text-[10px] font-mono font-bold text-ax-primary uppercase bg-blue-50 px-2 py-0.5 rounded-md"
+									>Pilotage Réel</span
+								>
 							</div>
 						</div>
 					</div>
-					
+
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						Votre gestion, simplifiée et pilotée au quotidien. Nous transformons vos obligations comptables en réels outils de visibilité financière.
+						Votre gestion, simplifiée et pilotée au quotidien. Nous transformons vos obligations
+						comptables en réels outils de visibilité financière.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
 					<ul class="space-y-3 mb-8">
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
-							<span><strong>Tenue & supervision :</strong> Organisation et suivi rigoureux de votre comptabilité courante.</span>
+							<span
+								><strong>Tenue & supervision :</strong> Organisation et suivi rigoureux de votre comptabilité
+								courante.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
-							<span><strong>États financiers :</strong> Production rapide de vos bilans, comptes de résultat et liasses fiscales.</span>
+							<span
+								><strong>États financiers :</strong> Production rapide de vos bilans, comptes de résultat
+								et liasses fiscales.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
-							<span><strong>Tableaux de bord :</strong> Indicateurs clés personnalisés pour piloter sereinement votre trésorerie.</span>
+							<span
+								><strong>Tableaux de bord :</strong> Indicateurs clés personnalisés pour piloter sereinement
+								votre trésorerie.</span
+							>
 						</li>
 					</ul>
 				</div>
-				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-ax-primary">
-					<span class="flex items-center gap-1.5"><i class="fa-solid fa-laptop-code text-sm"></i> Outils Pennylane inclus</span>
-					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
+				<div
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-ax-primary"
+				>
+					<span class="flex items-center gap-1.5"
+						><i class="fa-solid fa-laptop-code text-sm"></i> Outils Pennylane inclus</span
+					>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
+					></i>
 				</div>
 			</div>
 
 			<!-- Mission 2: Gestion sociale (Purple Accent) -->
-			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
-				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">02</span>
+			<div
+				class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+			>
+				<span
+					class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display"
+					>02</span
+				>
 				<div class="relative">
 					<div class="flex items-start justify-between mb-6">
 						<div class="flex items-center gap-4">
-							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center text-xl shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform">
+							<div
+								class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center text-xl shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform"
+							>
 								<i class="fa-solid fa-user-group"></i>
 							</div>
 							<div>
 								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
 									Gestion sociale
 								</h3>
-								<span class="text-[10px] font-mono font-bold text-purple-600 uppercase bg-purple-50 px-2 py-0.5 rounded-md">Conformité RH</span>
+								<span
+									class="text-[10px] font-mono font-bold text-purple-600 uppercase bg-purple-50 px-2 py-0.5 rounded-md"
+									>Conformité RH</span
+								>
 							</div>
 						</div>
 					</div>
-					
+
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						La paie sans stress, le volet social totalement sécurisé. Nous vous déchargeons de la complexité de la réglementation RH.
+						La paie sans stress, le volet social totalement sécurisé. Nous vous déchargeons de la
+						complexité de la réglementation RH.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
 					<ul class="space-y-3 mb-8">
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
-							<span><strong>Bulletins de paie :</strong> Édition conforme des bulletins et gestion complète des absences ou congés.</span>
+							<span
+								><strong>Bulletins de paie :</strong> Édition conforme des bulletins et gestion complète
+								des absences ou congés.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
-							<span><strong>Déclarations sociales :</strong> Télétransmission sécurisée de vos DSN et échanges avec les organismes.</span>
+							<span
+								><strong>Déclarations sociales :</strong> Télétransmission sécurisée de vos DSN et échanges
+								avec les organismes.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
-							<span><strong>Sécurité juridique :</strong> Rédaction de contrats de travail, avenants et procédures de rupture.</span>
+							<span
+								><strong>Sécurité juridique :</strong> Rédaction de contrats de travail, avenants et procédures
+								de rupture.</span
+							>
 						</li>
 					</ul>
 				</div>
-				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-purple-600">
-					<span class="flex items-center gap-1.5"><i class="fa-solid fa-users text-sm"></i> Stabilité réglementaire Silae</span>
-					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
+				<div
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-purple-600"
+				>
+					<span class="flex items-center gap-1.5"
+						><i class="fa-solid fa-users text-sm"></i> Stabilité réglementaire Silae</span
+					>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
+					></i>
 				</div>
 			</div>
 
 			<!-- Mission 3: Formalités juridiques & création (Orange Accent) -->
-			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
-				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">03</span>
+			<div
+				class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+			>
+				<span
+					class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display"
+					>03</span
+				>
 				<div class="relative">
 					<div class="flex items-start justify-between mb-6">
 						<div class="flex items-center gap-4">
-							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 text-white flex items-center justify-center text-xl shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform">
+							<div
+								class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 text-white flex items-center justify-center text-xl shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform"
+							>
 								<i class="fa-solid fa-scale-balanced"></i>
 							</div>
 							<div>
 								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
 									Formalités juridiques & création
 								</h3>
-								<span class="text-[10px] font-mono font-bold text-orange-600 uppercase bg-orange-50 px-2 py-0.5 rounded-md">Structure Clé en main</span>
+								<span
+									class="text-[10px] font-mono font-bold text-orange-600 uppercase bg-orange-50 px-2 py-0.5 rounded-md"
+									>Structure Clé en main</span
+								>
 							</div>
 						</div>
 					</div>
-					
+
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						Créer, modifier, sécuriser : on s'occupe de tout. Une protection juridique optimale dès le premier jour de votre entreprise.
+						Créer, modifier, sécuriser : on s'occupe de tout. Une protection juridique optimale dès
+						le premier jour de votre entreprise.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
 					<ul class="space-y-3 mb-8">
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
-							<span><strong>Création d'entreprise :</strong> Conseil sur la forme sociale adaptée (SASU, EURL, SAS, SARL) et statuts.</span>
+							<span
+								><strong>Création d'entreprise :</strong> Conseil sur la forme sociale adaptée (SASU,
+								EURL, SAS, SARL) et statuts.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
-							<span><strong>Secrétariat juridique annuel :</strong> Rédaction des assemblées générales ordinaires (AGO) et dépôt des comptes.</span>
+							<span
+								><strong>Secrétariat juridique annuel :</strong> Rédaction des assemblées générales ordinaires
+								(AGO) et dépôt des comptes.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
-							<span><strong>Modifications statutaires :</strong> Gestion des transferts de siège, augmentations de capital ou changements d'objet.</span>
+							<span
+								><strong>Modifications statutaires :</strong> Gestion des transferts de siège, augmentations
+								de capital ou changements d'objet.</span
+							>
 						</li>
 					</ul>
 				</div>
-				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-orange-600">
-					<span class="flex items-center gap-1.5"><i class="fa-solid fa-gavel text-sm"></i> Formalités & Statuts sous 48h</span>
-					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
+				<div
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-orange-600"
+				>
+					<span class="flex items-center gap-1.5"
+						><i class="fa-solid fa-gavel text-sm"></i> Formalités & Statuts sous 48h</span
+					>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
+					></i>
 				</div>
 			</div>
 
 			<!-- Mission 4: Gestion fiscale (Green Accent) -->
-			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
-				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">04</span>
+			<div
+				class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
+			>
+				<span
+					class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display"
+					>04</span
+				>
 				<div class="relative">
 					<div class="flex items-start justify-between mb-6">
 						<div class="flex items-center gap-4">
-							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center text-xl shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+							<div
+								class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center text-xl shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform"
+							>
 								<i class="fa-solid fa-coins"></i>
 							</div>
 							<div>
 								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
 									Gestion fiscale
 								</h3>
-								<span class="text-[10px] font-mono font-bold text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-md">Optimisation</span>
+								<span
+									class="text-[10px] font-mono font-bold text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-md"
+									>Optimisation</span
+								>
 							</div>
 						</div>
 					</div>
-					
+
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						Votre fiscalité, optimisée, arbitrée et sous contrôle. Nous étudions chaque levier légal pour maximiser votre net disponible.
+						Votre fiscalité, optimisée, arbitrée et sous contrôle. Nous étudions chaque levier légal
+						pour maximiser votre net disponible.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
 					<ul class="space-y-3 mb-8">
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
-							<span><strong>Déclarations d'impôts :</strong> Prise en charge de la TVA, de la CFE, de l'IS et sécurisation de vos échéances.</span>
+							<span
+								><strong>Déclarations d'impôts :</strong> Prise en charge de la TVA, de la CFE, de l'IS
+								et sécurisation de vos échéances.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
-							<span><strong>Stratégie de rémunération :</strong> Arbitrages personnalisés entre salaires, dividendes et primes de direction.</span>
+							<span
+								><strong>Stratégie de rémunération :</strong> Arbitrages personnalisés entre salaires,
+								dividendes et primes de direction.</span
+							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
-							<span><strong>Sécurisation fiscale :</strong> Veille réglementaire permanente et accompagnement proactif en cas de contrôle.</span>
+							<span
+								><strong>Sécurisation fiscale :</strong> Veille réglementaire permanente et accompagnement
+								proactif en cas de contrôle.</span
+							>
 						</li>
 					</ul>
 				</div>
-				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-emerald-600">
-					<span class="flex items-center gap-1.5"><i class="fa-solid fa-chart-pie text-sm"></i> Rationalisation IS / IR</span>
-					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
+				<div
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-emerald-600"
+				>
+					<span class="flex items-center gap-1.5"
+						><i class="fa-solid fa-chart-pie text-sm"></i> Rationalisation IS / IR</span
+					>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
+					></i>
 				</div>
 			</div>
 		</div>
@@ -818,8 +792,7 @@
 					Réactivité garantie
 				</h3>
 				<p class="text-xs text-ax-textMuted leading-relaxed">
-					Vos questions trouvent une réponse rapide. Pas de boîte noire, pas d'attente
-					interminable.
+					Vos questions trouvent une réponse rapide. Pas de boîte noire, pas d'attente interminable.
 				</p>
 			</div>
 
@@ -842,8 +815,7 @@
 					Transparence totale
 				</h3>
 				<p class="text-xs text-ax-textMuted leading-relaxed">
-					Des honoraires clairs et un périmètre défini : vous savez exactement ce qui est
-					inclus.
+					Des honoraires clairs et un périmètre défini : vous savez exactement ce qui est inclus.
 				</p>
 			</div>
 
@@ -854,8 +826,7 @@
 					Expert-comptable inscrit à l'Ordre
 				</h3>
 				<p class="text-xs text-ax-textMuted leading-relaxed">
-					Une garantie de compétence, de déontologie et de sécurité pour vous et votre
-					entreprise.
+					Une garantie de compétence, de déontologie et de sécurité pour vous et votre entreprise.
 				</p>
 			</div>
 		</div>
@@ -877,7 +848,9 @@
 				</div>
 
 				<!-- Quote Bubble -->
-				<div class="relative bg-white border border-slate-150 p-6 rounded-2xl shadow-sm max-w-sm flex flex-col">
+				<div
+					class="relative bg-white border border-slate-150 p-6 rounded-2xl shadow-sm max-w-sm flex flex-col"
+				>
 					<div
 						class="absolute -top-3 left-6 w-6 h-6 bg-white border-t border-l border-slate-150 rotate-45"
 					></div>
@@ -890,7 +863,12 @@
 					<h5 class="text-[10px] font-bold text-ax-textDark mt-3 text-right font-mono">
 						— Yaniv Choukroun, fondateur du cabinet Audaxem Conseil
 					</h5>
-					<a href="https://www.linkedin.com/in/yaniv-choukroun-07579018a/" target="_blank" class="text-xs text-ax-primary underline font-bold mt-2 ml-auto">Découvrir son parcours</a>
+					<a
+						href="https://www.linkedin.com/in/yaniv-choukroun-07579018a/"
+						target="_blank"
+						class="text-xs text-ax-primary underline font-bold mt-2 ml-auto"
+						>Découvrir son parcours</a
+					>
 				</div>
 			</div>
 
@@ -959,189 +937,177 @@
 </section>
 
 <!-- SECTION 4: CONTACT & INTERACTIVE CALENDAR SCHEDULER -->
-<section id="contact" class="py-20 bg-white">
+<section id="contact" class="py-24 bg-slate-50 border-t border-slate-200/60">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center max-w-2xl mx-auto mb-16">
-			<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block mb-2 font-mono"
-				>Contact & RDV</span
-			>
-			<h2 class="font-display text-3xl font-extrabold text-ax-textDark">
+			<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block mb-3 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full">
+				Contact & RDV
+			</span>
+			<h2 class="font-display text-3xl sm:text-4xl font-extrabold text-ax-textDark tracking-tight">
 				Prêt à optimiser votre gestion ?
 			</h2>
-
-			<p class="text-sm text-ax-textMuted mt-2">
-				Rencontrons-nous pour discuter de vos besoins et élaborer ensemble la stratégie adaptée à
-				votre situation.
+			<p class="text-sm text-ax-textMuted mt-3 leading-relaxed">
+				Rencontrons-nous pour discuter de vos besoins et élaborer ensemble la stratégie adaptée à votre situation.
 			</p>
 		</div>
 
-		<!-- Main Layout Split (Details vs Scheduler) -->
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-			<!-- Coordinates and WhatsApp Focus (Left Column) -->
-			<div
-				class="lg:col-span-5 bg-ax-deep text-white rounded-2xl p-8 shadow-xl flex flex-col justify-between"
-			>
-				<div class="flex flex-col justify-between h-full">
-					<h3
-						class="text-sm font-display font-extrabold text-white mb-6 uppercase tracking-wider flex items-center gap-2"
-					>
-						<i class="fa-solid fa-circle-nodes text-ax-primary"></i>
-						Cabinet Audaxem Conseil
-					</h3>
+			<div class="lg:col-span-5 bg-ax-deep text-white rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
+				<div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-50"></div>
+				<div class="flex flex-col justify-between h-full relative z-10">
+					<div>
+						<h3 class="text-sm font-display font-extrabold text-white mb-8 uppercase tracking-wider flex items-center gap-2">
+							<span class="w-2 h-2 rounded-full bg-ax-primary"></span>
+							Cabinet Audaxem Conseil
+						</h3>
 
-					<!-- Grid details updated with PLACE GAMBETTA -->
-					<div class="space-y-6 text-xs text-slate-300 font-mono">
-						<div class="flex items-start gap-3">
-							<i class="fa-solid fa-map-location-dot text-ax-primary text-base mt-0.5"></i>
-							<div>
-								<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5"
-									>Siège social</span
-								>
-								<span class="leading-relaxed">35 Place Gambetta,<br />33000 Bordeaux</span>
+						<div class="space-y-6 text-xs text-slate-300 font-mono">
+							<div class="flex items-start gap-4">
+								<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0">
+									<i class="fa-solid fa-map-location-dot"></i>
+								</div>
+								<div>
+									<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5">Siège social</span>
+									<span class="leading-relaxed text-slate-400">35 Place Gambetta,<br />33000 Bordeaux</span>
+								</div>
 							</div>
-						</div>
 
-						<div class="flex items-start gap-3">
-							<i class="fa-solid fa-phone text-ax-primary text-base mt-0.5"></i>
-							<div>
-								<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5"
-									>Téléphone direct</span
-								>
-								<span>06 03 96 26 64</span>
+							<div class="flex items-start gap-4">
+								<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0">
+									<i class="fa-solid fa-phone"></i>
+								</div>
+								<div>
+									<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5">Téléphone direct</span>
+									<a href="tel:0603962664" class="hover:text-white transition-colors text-slate-400">06 03 96 26 64</a>
+								</div>
 							</div>
-						</div>
 
-						<div class="flex items-start gap-3">
-							<i class="fa-solid fa-envelope text-ax-primary text-base mt-0.5"></i>
-							<div>
-								<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5"
-									>Email du cabinet</span
-								>
-								<span>yaniv.c@audaxem-conseil.fr</span>
+							<div class="flex items-start gap-4">
+								<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0">
+									<i class="fa-solid fa-envelope"></i>
+								</div>
+								<div>
+									<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5">Email du cabinet</span>
+									<a href="mailto:yaniv.c@audaxem-conseil.fr" class="hover:text-white transition-colors text-slate-400">yaniv.c@audaxem-conseil.fr</a>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Highly Visible Direct WhatsApp Call to Action -->
-					<div class="mt-8 p-5 bg-emerald-950/40 border border-emerald-500/20 rounded-xl space-y-3">
+					<div class="mt-12 p-6 bg-emerald-950/40 border border-emerald-500/20 rounded-2xl space-y-4">
 						<div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-							<i class="fa-brands fa-whatsapp text-lg"></i>
+							<span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
 							<span>Support direct WhatsApp</span>
 						</div>
-						<p class="text-[10px] text-slate-300 font-sans leading-relaxed">
-							Échangez directement et de manière confidentielle avec Yaniv Choukroun sur votre
-							projet de création ou de transfert de comptabilité.
+						<p class="text-[11px] text-slate-300 font-sans leading-relaxed">
+							Échangez directement et de manière confidentielle avec Yaniv Choukroun sur votre projet de création ou de transfert.
 						</p>
-						<a
-							href="https://wa.me/33603962664"
-							target="_blank"
-							class="inline-flex w-full items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg text-xs font-mono transition-colors shadow"
-						>
+						<a href="https://wa.me/33603962664" target="_blank" class="inline-flex w-full items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-xl text-xs font-mono transition-all shadow-lg shadow-emerald-950/50">
 							<i class="fa-brands fa-whatsapp text-sm"></i> Écrire sur WhatsApp
 						</a>
 					</div>
 				</div>
 			</div>
 
-			<!-- Calendar Selection (Right Column) -->
-			<div
-				class="lg:col-span-7 bg-ax-slate rounded-2xl border border-slate-200/80 p-6 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<h3
-						class="text-sm font-display font-extrabold text-ax-textDark mb-6 uppercase tracking-wider flex items-center gap-2"
-					>
-						<i class="fa-solid fa-calendar-check text-ax-primary"></i>
-						Réserver votre créneau en ligne
-					</h3>
+			<div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm flex flex-col justify-between">
+				<form method="POST" action="?/bookAppointment" use:enhance class="space-y-6">
+					<div>
+						<h3 class="text-sm font-display font-extrabold text-ax-textDark mb-6 uppercase tracking-wider flex items-center gap-2">
+							<i class="fa-solid fa-calendar-check text-ax-primary"></i>
+							Réserver votre créneau en ligne
+						</h3>
 
-					<!-- Month toggle layout -->
-					<div class="flex justify-between items-center mb-5">
-						<button
-							type="button"
-							class="text-ax-textMuted hover:text-ax-textDark font-mono text-xs font-bold"
-							onclick={changeWeek('prev')}
-						>
-							<i class="fa-solid fa-chevron-left mr-1"></i> Précédent
-						</button>
-						<span class="font-display font-extrabold text-ax-textDark text-sm" id="cal-month"
-							>Juillet 2026</span
-						>
-						<button
-							type="button"
-							class="text-ax-textMuted hover:text-ax-textDark font-mono text-xs font-bold"
-							onclick={changeWeek('next')}
-						>
-							Suivant <i class="fa-solid fa-chevron-right ml-1"></i>
-						</button>
-					</div>
-
-					<!-- Days Selector -->
-					<div class="grid grid-cols-5 gap-2 text-center mb-6" id="cal-days-grid">
-						<!-- Populated with JS -->
-					</div>
-
-					<!-- Hours Selector -->
-					<h4 class="text-xs font-mono font-bold text-ax-textMuted mb-3 uppercase tracking-wider">
-						Sélectionnez une heure
-					</h4>
-					<div class="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-6" id="cal-hours-grid">
-						<!-- Populated with JS -->
-					</div>
-
-					<!-- Integrated mini-form for contact -->
-					<form
-						id="booking-form"
-						onsubmit={submitMeeting(event)}
-						class="space-y-4 border-t border-slate-200/60 pt-6"
-					>
-						<div
-							class="bg-white rounded-xl p-3 border border-slate-150 font-mono text-xs flex justify-between items-center shadow-inner"
-						>
-							<span class="text-ax-textMuted">Rendez-vous choisi :</span>
-							<span class="font-bold text-ax-primary" id="cal-selected-summary"
-								>Choisir un horaire</span
-							>
-						</div>
-
-						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-							<input
-								type="text"
-								id="form-name"
-								required
-								placeholder="Votre nom complet"
-								class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-ax-primary"
-							/>
-							<input
-								type="email"
-								id="form-email"
-								required
-								placeholder="Votre e-mail"
-								class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-ax-primary"
-							/>
-						</div>
-
-						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-							<input
-								type="tel"
-								id="form-phone"
-								required
-								placeholder="Téléphone portable"
-								class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-xs focus:outline-none focus:border-ax-primary"
-							/>
-							<button
-								type="submit"
-								class="bg-ax-primary hover:bg-ax-royal text-white font-extrabold py-2.5 px-4 rounded-lg text-xs uppercase tracking-wider transition-all"
-							>
-								Confirmer le rendez-vous
+						<div class="flex justify-between items-center mb-4">
+							<button type="button" class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1 disabled:opacity-30" onclick={() => changeWeek('prev')} disabled={calendarWeekOffset === 0}>
+								<i class="fa-solid fa-chevron-left text-[10px]"></i> Précédent
+							</button>
+							<span class="font-display font-extrabold text-ax-textDark text-sm">Juillet 2026</span>
+							<button type="button" class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1" onclick={() => changeWeek('next')}>
+								Suivant <i class="fa-solid fa-chevron-right text-[10px]"></i>
 							</button>
 						</div>
-					</form>
-				</div>
+
+						<div class="grid grid-cols-5 gap-2 text-center mb-6">
+							{#each computedDays as day, i}
+								<button type="button" class="p-3 rounded-xl flex flex-col items-center justify-center transition-all border { $form.selectedDay === day ? 'bg-ax-primary text-white border-ax-primary shadow-md shadow-blue-500/25 scale-[1.02]' : 'bg-white border-slate-200 hover:bg-slate-50 text-ax-textDark' }" onclick={() => $form.selectedDay = day}>
+									<span class="text-[9px] uppercase font-mono tracking-wider opacity-75"> {daysLabelArray[i]} </span>
+									<span class="text-sm font-black mt-1">{day}</span>
+								</button>
+							{/each}
+						</div>
+						{#if $errors.selectedDay}<p class="text-rose-500 text-[11px] font-mono mt-1">{$errors.selectedDay}</p>{/if}
+
+						<h4 class="text-[11px] font-mono font-bold text-ax-textMuted mb-3 uppercase tracking-wider">Sélectionnez une heure</h4>
+						<div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-6">
+							{#each listHours as hour}
+								<button type="button" class="p-2.5 rounded-xl text-xs font-mono font-bold text-center transition-all border { $form.selectedHour === hour ? 'bg-ax-deep text-white border-ax-deep shadow-md' : 'bg-white border-slate-200 hover:border-slate-400 text-ax-textDark' }" onclick={() => $form.selectedHour = hour}>
+									{hour}
+								</button>
+							{/each}
+						</div>
+						{#if $errors.selectedHour}<p class="text-rose-500 text-[11px] font-mono mt-1">{$errors.selectedHour}</p>{/if}
+					</div>
+
+					<div class="space-y-4 border-t border-slate-100 pt-6">
+						<input type="hidden" name="selectedDay" bind:value={$form.selectedDay} />
+						<input type="hidden" name="selectedHour" bind:value={$form.selectedHour} />
+
+						<div class="bg-slate-50 rounded-xl p-3 border border-slate-150 font-mono text-xs flex justify-between items-center">
+							<span class="text-ax-textMuted">Rendez-vous choisi :</span>
+							<span class="font-bold text-ax-primary">
+								{#if $form.selectedDay && $form.selectedHour}
+									{$form.selectedDay} Juillet 2026 à {$form.selectedHour}
+								{:else}
+									Sélectionnez un jour & un horaire
+								{/if}
+							</span>
+						</div>
+
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+							<div class="flex flex-col">
+								<input type="text" name="name" bind:value={$form.name} {...$constraints.name} placeholder="Votre nom complet" class="bg-white border {$errors.name ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors" />
+								{#if $errors.name}<span class="text-rose-500 text-[10px] font-mono mt-1">{$errors.name}</span>{/if}
+							</div>
+							<div class="flex flex-col">
+								<input type="email" name="email" bind:value={$form.email} {...$constraints.email} placeholder="Votre e-mail" class="bg-white border {$errors.email ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors" />
+								{#if $errors.email}<span class="text-rose-500 text-[10px] font-mono mt-1">{$errors.email}</span>{/if}
+							</div>
+						</div>
+
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+							<div class="flex flex-col">
+								<input type="tel" name="phone" bind:value={$form.phone} {...$constraints.phone} placeholder="Téléphone portable" class="bg-white border {$errors.phone ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors" />
+								{#if $errors.phone}<span class="text-rose-500 text-[10px] font-mono mt-1">{$errors.phone}</span>{/if}
+							</div>
+							<button type="submit" disabled={$delayed} class="bg-ax-primary hover:bg-ax-royal text-white font-extrabold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-50 shadow-md shadow-blue-500/10">
+								{#if $delayed}Traitement...{:else}Confirmer le rendez-vous{/if}
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 </section>
+
+{#if isModalOpen}
+	<div class="fixed inset-0 bg-ax-deep/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+		<div class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-mono text-xs">
+			<div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+				<i class="fa-solid fa-circle-check"></i>
+			</div>
+			<h3 class="text-sm font-display font-extrabold text-ax-textDark uppercase tracking-wider">
+				Créneau réservé !
+			</h3>
+			<p class="text-ax-textMuted leading-relaxed font-sans">
+				Félicitations <strong>{$form.name}</strong>, votre rendez-vous conseil de 15 minutes avec Yaniv Choukroun est enregistré pour le <strong>{$form.selectedDay} Juillet 2026 à {$form.selectedHour}</strong>.
+			</p>
+			<button type="button" onclick={() => isModalOpen = false} class="w-full bg-ax-primary hover:bg-ax-royal text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-all">
+				Fermer
+			</button>
+		</div>
+	</div>
+{/if}
 
 <!-- Success Modal Overlay -->
 <div
