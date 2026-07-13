@@ -32,7 +32,7 @@
 		if (!typewriterElement) return;
 
 		let index = 0;
-		typewriterElement.textContent = ''; // On vide l'élément au départ
+		typewriterElement.textContent = ''; 
 
 		const interval = setInterval(() => {
 			if (index < targetPhrase.length) {
@@ -41,7 +41,7 @@
 			} else {
 				clearInterval(interval);
 			}
-		}, 100); // Vitesse de frappe (35ms par lettre)
+		}, 100);
 	}
 
 	// State management
@@ -323,8 +323,9 @@
 				<h1
 					class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-ax-textDark leading-tight tracking-tight min-h-[120px] sm:min-h-[100px] lg:min-h-[150px]"
 				>
-					Audaxem Conseil : <span id="typewriter-text"></span><span
-						class="ml-1 inline-block animate-pulse">|</span
+					Audaxem Conseil : <span id="typewriter-text" class=""></span><span
+						class="ml-1 inline-block animate-pulse"
+						>|</span
 					>
 				</h1>
 
@@ -573,121 +574,194 @@
 	</div>
 </section>
 
-<!-- SECTION 2: SERVICES (Exact requested texts & 4 compact, high-contrast dynamic cards) -->
-<section id="services" class="py-20 bg-white border-b border-slate-200/50">
+<!-- SECTION 2: SERVICES (Design moderne, cartes premium sans emojis) -->
+<section id="services" class="py-24 bg-gradient-to-b from-white to-ax-slate/30 border-b border-slate-200/50">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<!-- Header Section -->
-		<div class="max-w-4xl mx-auto text-center mb-16">
-			<!-- Requested phrase 1 -->
-			<span
-				class="text-ax-primary font-extrabold text-xs uppercase tracking-widest block mb-3 font-mono"
-				>Nos offres sur-mesure</span
-			>
-			<!-- Requested phrase 2 (Noir gras) -->
-			<h2
-				class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-ax-textDark leading-snug"
-			>
-				L’expertise 360° qui répond à toutes les problématiques comptables, sociales, juridiques et
-				fiscales des dirigeants.
+		<div class="max-w-4xl mx-auto text-center mb-20">
+			<span class="text-ax-primary font-extrabold text-xs uppercase tracking-widest block mb-4 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full">
+				Nos offres sur-mesure
+			</span>
+			<h2 class="font-display text-3xl sm:text-4xl font-extrabold text-ax-textDark leading-tight tracking-tight">
+				L'expertise 360° qui répond à toutes les problématiques comptables, sociales, juridiques et fiscales des dirigeants.
 			</h2>
 		</div>
 
-		<!-- 4 Grid Cards - Highly polished, responsive, and visually dynamic (Shades of Blue/Slate with colored bullets) -->
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-			<!-- Card 1: Tenue comptable & optimisation (Blue bullet) -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/70 shadow-sm hover:shadow-ax-hover hover:border-blue-300 hover:bg-white transition-all flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-2 mb-4">
-						<span class="text-xl">🔵</span>
-						<h3 class="text-base font-extrabold text-ax-textDark font-display">
-							Tenue comptable & optimisation
-						</h3>
+		<!-- Grid Cards - Design moderne avec icônes vectorielles et numérotation -->
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+			<!-- Mission 1: Tenue comptable & optimisation (Blue Accent) -->
+			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">01</span>
+				<div class="relative">
+					<div class="flex items-start justify-between mb-6">
+						<div class="flex items-center gap-4">
+							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-ax-primary to-blue-600 text-white flex items-center justify-center text-xl shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+								<i class="fa-solid fa-calculator"></i>
+							</div>
+							<div>
+								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
+									Tenue comptable & optimisation
+								</h3>
+								<span class="text-[10px] font-mono font-bold text-ax-primary uppercase bg-blue-50 px-2 py-0.5 rounded-md">Pilotage Réel</span>
+							</div>
+						</div>
 					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed">
-						<strong>Votre gestion, simplifiée et pilotée.</strong> Tenue et supervision de la compta,
-						production des états financiers, déclarations fiscales et sociales, pilotage financier et
-						conseils pour faire grandir votre activité.
+					
+					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
+						Votre gestion, simplifiée et pilotée au quotidien. Nous transformons vos obligations comptables en réels outils de visibilité financière.
 					</p>
+
+					<!-- Detailed Mission Checklist -->
+					<ul class="space-y-3 mb-8">
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
+							<span><strong>Tenue & supervision :</strong> Organisation et suivi rigoureux de votre comptabilité courante.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
+							<span><strong>États financiers :</strong> Production rapide de vos bilans, comptes de résultat et liasses fiscales.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
+							<span><strong>Tableaux de bord :</strong> Indicateurs clés personnalisés pour piloter sereinement votre trésorerie.</span>
+						</li>
+					</ul>
 				</div>
-				<div
-					class="pt-6 border-t border-slate-100/60 mt-6 flex justify-between items-center text-[11px] font-mono font-bold text-ax-primary"
-				>
-					<span>Outils Pennylane inclus</span>
-					<i class="fa-solid fa-arrow-right-long"></i>
+				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-ax-primary">
+					<span class="flex items-center gap-1.5"><i class="fa-solid fa-laptop-code text-sm"></i> Outils Pennylane inclus</span>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
 				</div>
 			</div>
 
-			<!-- Card 2: Gestion sociale (Purple bullet) -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/70 shadow-sm hover:shadow-ax-hover hover:border-purple-300 hover:bg-white transition-all flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-2 mb-4">
-						<span class="text-xl">🟣</span>
-						<h3 class="text-base font-extrabold text-ax-textDark font-display">Gestion sociale</h3>
+			<!-- Mission 2: Gestion sociale (Purple Accent) -->
+			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">02</span>
+				<div class="relative">
+					<div class="flex items-start justify-between mb-6">
+						<div class="flex items-center gap-4">
+							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-700 text-white flex items-center justify-center text-xl shadow-lg shadow-purple-500/30 group-hover:scale-105 transition-transform">
+								<i class="fa-solid fa-user-group"></i>
+							</div>
+							<div>
+								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
+									Gestion sociale
+								</h3>
+								<span class="text-[10px] font-mono font-bold text-purple-600 uppercase bg-purple-50 px-2 py-0.5 rounded-md">Conformité RH</span>
+							</div>
+						</div>
 					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed">
-						<strong>La paie sans stress, le social maîtrisé.</strong>
-						Bulletins de paie, déclarations sociales, contrats de travail, gestion RH du quotidien et
-						accompagnement sur toutes vos questions sociales.
+					
+					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
+						La paie sans stress, le volet social totalement sécurisé. Nous vous déchargeons de la complexité de la réglementation RH.
 					</p>
+
+					<!-- Detailed Mission Checklist -->
+					<ul class="space-y-3 mb-8">
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
+							<span><strong>Bulletins de paie :</strong> Édition conforme des bulletins et gestion complète des absences ou congés.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
+							<span><strong>Déclarations sociales :</strong> Télétransmission sécurisée de vos DSN et échanges avec les organismes.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
+							<span><strong>Sécurité juridique :</strong> Rédaction de contrats de travail, avenants et procédures de rupture.</span>
+						</li>
+					</ul>
 				</div>
-				<div
-					class="pt-6 border-t border-slate-100/60 mt-6 flex justify-between items-center text-[11px] font-mono font-bold text-purple-600"
-				>
-					<span>Outils Silae intégrés</span>
-					<i class="fa-solid fa-arrow-right-long"></i>
+				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-purple-600">
+					<span class="flex items-center gap-1.5"><i class="fa-solid fa-users text-sm"></i> Stabilité réglementaire Silae</span>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
 				</div>
 			</div>
 
-			<!-- Card 3: Formalités juridiques & création (Orange bullet) -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/70 shadow-sm hover:shadow-ax-hover hover:border-orange-300 hover:bg-white transition-all flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-2 mb-4">
-						<span class="text-xl">🟠</span>
-						<h3 class="text-base font-extrabold text-ax-textDark font-display">
-							Formalités juridiques & création
-						</h3>
+			<!-- Mission 3: Formalités juridiques & création (Orange Accent) -->
+			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">03</span>
+				<div class="relative">
+					<div class="flex items-start justify-between mb-6">
+						<div class="flex items-center gap-4">
+							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-700 text-white flex items-center justify-center text-xl shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform">
+								<i class="fa-solid fa-scale-balanced"></i>
+							</div>
+							<div>
+								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
+									Formalités juridiques & création
+								</h3>
+								<span class="text-[10px] font-mono font-bold text-orange-600 uppercase bg-orange-50 px-2 py-0.5 rounded-md">Structure Clé en main</span>
+							</div>
+						</div>
 					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed">
-						<strong>Créer, modifier, sécuriser : on s’occupe de tout.</strong> Création d’entreprise,
-						suivi juridique annuel, modifications statutaires, rédaction d’actes et conseil en droit des
-						sociétés.
+					
+					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
+						Créer, modifier, sécuriser : on s'occupe de tout. Une protection juridique optimale dès le premier jour de votre entreprise.
 					</p>
-				</div>
-				<div
-					class="pt-6 border-t border-slate-100/60 mt-6 flex justify-between items-center text-[11px] font-mono font-bold text-orange-600"
-				>
-					<span>Statuts en 48h</span>
 
-					<i class="fa-solid fa-arrow-right-long"></i>
+					<!-- Detailed Mission Checklist -->
+					<ul class="space-y-3 mb-8">
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
+							<span><strong>Création d'entreprise :</strong> Conseil sur la forme sociale adaptée (SASU, EURL, SAS, SARL) et statuts.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
+							<span><strong>Secrétariat juridique annuel :</strong> Rédaction des assemblées générales ordinaires (AGO) et dépôt des comptes.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
+							<span><strong>Modifications statutaires :</strong> Gestion des transferts de siège, augmentations de capital ou changements d'objet.</span>
+						</li>
+					</ul>
+				</div>
+				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-orange-600">
+					<span class="flex items-center gap-1.5"><i class="fa-solid fa-gavel text-sm"></i> Formalités & Statuts sous 48h</span>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
 				</div>
 			</div>
 
-			<!-- Card 4: Gestion fiscale (Green bullet) -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/70 shadow-sm hover:shadow-ax-hover hover:border-emerald-300 hover:bg-white transition-all flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-2 mb-4">
-						<span class="text-xl">🟢</span>
-						<h3 class="text-base font-extrabold text-ax-textDark font-display">Gestion fiscale</h3>
+			<!-- Mission 4: Gestion fiscale (Green Accent) -->
+			<div class="relative bg-white p-8 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+				<span class="absolute -top-2 -right-2 text-7xl font-black text-slate-50 select-none font-display">04</span>
+				<div class="relative">
+					<div class="flex items-start justify-between mb-6">
+						<div class="flex items-center gap-4">
+							<div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center text-xl shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform">
+								<i class="fa-solid fa-coins"></i>
+							</div>
+							<div>
+								<h3 class="text-lg font-extrabold text-ax-textDark font-display">
+									Gestion fiscale
+								</h3>
+								<span class="text-[10px] font-mono font-bold text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-md">Optimisation</span>
+							</div>
+						</div>
 					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed">
-						<strong>Votre fiscalité, optimisée et sous contrôle.</strong>
-						Analyse fiscale, choix du meilleur régime, arbitrage salaire/dividendes, optimisation et sécurisation
-						de vos obligations.
+					
+					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
+						Votre fiscalité, optimisée, arbitrée et sous contrôle. Nous étudions chaque levier légal pour maximiser votre net disponible.
 					</p>
+
+					<!-- Detailed Mission Checklist -->
+					<ul class="space-y-3 mb-8">
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+							<span><strong>Déclarations d'impôts :</strong> Prise en charge de la TVA, de la CFE, de l'IS et sécurisation de vos échéances.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+							<span><strong>Stratégie de rémunération :</strong> Arbitrages personnalisés entre salaires, dividendes et primes de direction.</span>
+						</li>
+						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
+							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
+							<span><strong>Sécurisation fiscale :</strong> Veille réglementaire permanente et accompagnement proactif en cas de contrôle.</span>
+						</li>
+					</ul>
 				</div>
-				<div
-					class="pt-6 border-t border-slate-100/60 mt-6 flex justify-between items-center text-[11px] font-mono font-bold text-emerald-600"
-				>
-					<span>Optimisation IS/IR</span>
-					<i class="fa-solid fa-arrow-right-long"></i>
+				<div class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-emerald-600">
+					<span class="flex items-center gap-1.5"><i class="fa-solid fa-chart-pie text-sm"></i> Rationalisation IS / IR</span>
+					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"></i>
 				</div>
 			</div>
 		</div>
@@ -1004,6 +1078,7 @@
 	</div>
 </div>
 
+<!-- Floating Whatsapp Action Button -->
 <a
 	href="https://wa.me/33603962664"
 	target="_blank"
