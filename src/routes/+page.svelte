@@ -4,8 +4,8 @@
 	import logo from '$lib/assets/logo.svg';
 	import pp from '$lib/assets/pp.jpg';
 
-	let {data} = $props()
-	
+	let { data } = $props();
+
 	const { form, errors, constraints, enhance, delayed } = superForm(data.form, {
 		resetForm: true,
 		onUpdated({ status }) {
@@ -55,7 +55,9 @@
 	const startingBaseDay = 20;
 
 	// Calcul dynamique des jours de la semaine choisie
-	let computedDays = $derived(Array.from({ length: 5 }, (_, d) => startingBaseDay + calendarWeekOffset * 7 + d));
+	let computedDays = $derived(
+		Array.from({ length: 5 }, (_, d) => startingBaseDay + calendarWeekOffset * 7 + d)
+	);
 
 	function changeWeek(direction) {
 		if (direction === 'prev' && calendarWeekOffset > 0) calendarWeekOffset--;
@@ -77,7 +79,7 @@
 					<img src={logo} class="w-20 h-20" />
 					<div class="flex flex-col">
 						<span
-							class="font-display text-2xl font-extrabold text-ax-deep tracking-tight leading-tight"
+							class="font-display text-2xl font-extrabold text-[#254789] tracking-tight leading-tight"
 						>
 							Audaxem Conseil
 						</span>
@@ -128,7 +130,7 @@
 			<div class="flex items-center md:hidden">
 				<button
 					id="mobile-menu-btn"
-					class="text-slate-900 hover:text-ax-primary focus:outline-none"
+					class="text-[#254789] hover:text-ax-primary focus:outline-none"
 				>
 					<i class="fa-solid fa-bars text-2xl"></i>
 				</button>
@@ -188,7 +190,7 @@
 
 				<!-- Headline with Fixed Height Container & Typewriter Target Elements -->
 				<h1
-					class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-ax-textDark leading-tight tracking-tight min-h-[120px] sm:min-h-[100px] lg:min-h-[150px]"
+					class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#254789] leading-tight tracking-tight min-h-[120px] sm:min-h-[100px] lg:min-h-[150px]"
 				>
 					Audaxem Conseil : <span id="typewriter-text" class=""></span><span
 						class="ml-1 inline-block animate-pulse">|</span
@@ -331,109 +333,6 @@
 							Discuter de mon projet professionnel avec Yaniv en 15 min
 						</p>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
-<!-- SECTION: GOOGLE REVIEWS (Social Proof Banner) -->
-<section class="py-14 bg-white border-b border-slate-100">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<!-- Section Header -->
-		<div class="flex flex-col items-center text-center mb-10">
-			<div
-				class="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full text-amber-500 font-mono text-xs font-bold mb-3 shadow-sm"
-			>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<span class="text-slate-700 ml-1">5.0 / 5 sur Google Reviews</span>
-			</div>
-			<h2 class="font-display text-2xl sm:text-3xl font-extrabold text-ax-textDark tracking-tight">
-				Ils parlent de nous, ils nous font confiance
-			</h2>
-		</div>
-
-		<!-- Reviews Grid -->
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			<!-- Review 1 -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-							class="fa-solid fa-star"
-						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed italic">
-						"Yaniv m'a accompagné pour le lancement de mon activité. Conseils clairs, structure
-						optimisée en 48h et prise en main de l'outil Pennylane d'une simplicité remarquable. Un
-						vrai gain de temps !"
-					</p>
-				</div>
-				<div
-					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
-				>
-					<span class="font-bold text-ax-textDark">Alexandre M. • Consultant</span>
-					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
-						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
-					>
-				</div>
-			</div>
-
-			<!-- Review 2 -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-							class="fa-solid fa-star"
-						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed italic">
-						"Je redoutais le transfert de ma comptabilité depuis mon ancien cabinet, mais Audaxem a
-						tout géré de manière fluide et transparente. Réponse toujours sous 24h, très pro et
-						disponible."
-					</p>
-				</div>
-				<div
-					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
-				>
-					<span class="font-bold text-ax-textDark">Marine D. • Co-fondatrice Agence</span>
-					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
-						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
-					>
-				</div>
-			</div>
-
-			<!-- Review 3 -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-							class="fa-solid fa-star"
-						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed italic">
-						"Un accompagnement proactif précieux. Au-delà des chiffres, Yaniv apporte de réels
-						conseils d'optimisation fiscale et sociale pour mon entreprise au quotidien. Je
-						recommande les yeux fermés."
-					</p>
-				</div>
-				<div
-					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
-				>
-					<span class="font-bold text-ax-textDark">Thomas L. • Artisan d'art</span>
-					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
-						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
-					>
 				</div>
 			</div>
 		</div>
@@ -940,119 +839,197 @@
 <section id="contact" class="py-24 bg-slate-50 border-t border-slate-200/60">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center max-w-2xl mx-auto mb-16">
-			<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block mb-3 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full">
+			<span
+				class="text-ax-primary font-bold text-xs uppercase tracking-widest block mb-3 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full"
+			>
 				Contact & RDV
 			</span>
 			<h2 class="font-display text-3xl sm:text-4xl font-extrabold text-ax-textDark tracking-tight">
 				Prêt à optimiser votre gestion ?
 			</h2>
 			<p class="text-sm text-ax-textMuted mt-3 leading-relaxed">
-				Rencontrons-nous pour discuter de vos besoins et élaborer ensemble la stratégie adaptée à votre situation.
+				Rencontrons-nous pour discuter de vos besoins et élaborer ensemble la stratégie adaptée à
+				votre situation.
 			</p>
 		</div>
 
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-			<div class="lg:col-span-5 bg-ax-deep text-white rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
-				<div class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-50"></div>
+			<div
+				class="lg:col-span-5 bg-ax-deep text-white rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group"
+			>
+				<div
+					class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-50"
+				></div>
 				<div class="flex flex-col justify-between h-full relative z-10">
 					<div>
-						<h3 class="text-sm font-display font-extrabold text-white mb-8 uppercase tracking-wider flex items-center gap-2">
+						<h3
+							class="text-sm font-display font-extrabold text-white mb-8 uppercase tracking-wider flex items-center gap-2"
+						>
 							<span class="w-2 h-2 rounded-full bg-ax-primary"></span>
 							Cabinet Audaxem Conseil
 						</h3>
 
 						<div class="space-y-6 text-xs text-slate-300 font-mono">
 							<div class="flex items-start gap-4">
-								<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0">
+								<div
+									class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0"
+								>
 									<i class="fa-solid fa-map-location-dot"></i>
 								</div>
 								<div>
-									<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5">Siège social</span>
-									<span class="leading-relaxed text-slate-400">35 Place Gambetta,<br />33000 Bordeaux</span>
+									<span
+										class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5"
+										>Siège social</span
+									>
+									<span class="leading-relaxed text-slate-400"
+										>35 Place Gambetta,<br />33000 Bordeaux</span
+									>
 								</div>
 							</div>
 
 							<div class="flex items-start gap-4">
-								<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0">
+								<div
+									class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0"
+								>
 									<i class="fa-solid fa-phone"></i>
 								</div>
 								<div>
-									<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5">Téléphone direct</span>
-									<a href="tel:0603962664" class="hover:text-white transition-colors text-slate-400">06 03 96 26 64</a>
+									<span
+										class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5"
+										>Téléphone direct</span
+									>
+									<a href="tel:0603962664" class="hover:text-white transition-colors text-slate-400"
+										>06 03 96 26 64</a
+									>
 								</div>
 							</div>
 
 							<div class="flex items-start gap-4">
-								<div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0">
+								<div
+									class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0"
+								>
 									<i class="fa-solid fa-envelope"></i>
 								</div>
 								<div>
-									<span class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5">Email du cabinet</span>
-									<a href="mailto:yaniv.c@audaxem-conseil.fr" class="hover:text-white transition-colors text-slate-400">yaniv.c@audaxem-conseil.fr</a>
+									<span
+										class="block font-bold text-white text-[11px] uppercase tracking-wider mb-0.5"
+										>Email du cabinet</span
+									>
+									<a
+										href="mailto:yaniv.c@audaxem-conseil.fr"
+										class="hover:text-white transition-colors text-slate-400"
+										>yaniv.c@audaxem-conseil.fr</a
+									>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="mt-12 p-6 bg-emerald-950/40 border border-emerald-500/20 rounded-2xl space-y-4">
+					<div
+						class="mt-12 p-6 bg-emerald-950/40 border border-emerald-500/20 rounded-2xl space-y-4"
+					>
 						<div class="flex items-center gap-2 text-emerald-400 font-bold text-xs">
 							<span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
 							<span>Support direct WhatsApp</span>
 						</div>
 						<p class="text-[11px] text-slate-300 font-sans leading-relaxed">
-							Échangez directement et de manière confidentielle avec Yaniv Choukroun sur votre projet de création ou de transfert.
+							Échangez directement et de manière confidentielle avec Yaniv Choukroun sur votre
+							projet de création ou de transfert.
 						</p>
-						<a href="https://wa.me/33603962664" target="_blank" class="inline-flex w-full items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-xl text-xs font-mono transition-all shadow-lg shadow-emerald-950/50">
+						<a
+							href="https://wa.me/33603962664"
+							target="_blank"
+							class="inline-flex w-full items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-xl text-xs font-mono transition-all shadow-lg shadow-emerald-950/50"
+						>
 							<i class="fa-brands fa-whatsapp text-sm"></i> Écrire sur WhatsApp
 						</a>
 					</div>
 				</div>
 			</div>
 
-			<div class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm flex flex-col justify-between">
+			<div
+				class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm flex flex-col justify-between"
+			>
 				<form method="POST" action="?/bookAppointment" use:enhance class="space-y-6">
 					<div>
-						<h3 class="text-sm font-display font-extrabold text-ax-textDark mb-6 uppercase tracking-wider flex items-center gap-2">
+						<h3
+							class="text-sm font-display font-extrabold text-ax-textDark mb-6 uppercase tracking-wider flex items-center gap-2"
+						>
 							<i class="fa-solid fa-calendar-check text-ax-primary"></i>
 							Réserver votre créneau en ligne
 						</h3>
 
 						<div class="flex justify-between items-center mb-4">
-							<button type="button" class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1 disabled:opacity-30" onclick={() => changeWeek('prev')} disabled={calendarWeekOffset === 0}>
+							<button
+								type="button"
+								class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1 disabled:opacity-30"
+								onclick={() => changeWeek('prev')}
+								disabled={calendarWeekOffset === 0}
+							>
 								<i class="fa-solid fa-chevron-left text-[10px]"></i> Précédent
 							</button>
 							<span class="font-display font-extrabold text-ax-textDark text-sm">Juillet 2026</span>
-							<button type="button" class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1" onclick={() => changeWeek('next')}>
+							<button
+								type="button"
+								class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1"
+								onclick={() => changeWeek('next')}
+							>
 								Suivant <i class="fa-solid fa-chevron-right text-[10px]"></i>
 							</button>
 						</div>
 
 						<div class="grid grid-cols-5 gap-2 text-center mb-6">
 							{#each computedDays as day, i}
-								<button type="button" class="p-3 rounded-xl flex flex-col items-center justify-center transition-all border { $form.selectedDay === day ? 'bg-ax-primary text-white border-ax-primary shadow-md shadow-blue-500/25 scale-[1.02]' : 'bg-white border-slate-200 hover:bg-slate-50 text-ax-textDark' }" onclick={() => $form.selectedDay = day}>
-									<span class="text-[9px] uppercase font-mono tracking-wider opacity-75"> {daysLabelArray[i]} </span>
+								<button
+									type="button"
+									class="p-3 rounded-xl flex flex-col items-center justify-center transition-all border {$form.selectedDay ===
+									day
+										? 'bg-ax-primary text-white border-ax-primary shadow-md shadow-blue-500/25 scale-[1.02]'
+										: 'bg-white border-slate-200 hover:bg-slate-50 text-ax-textDark'}"
+									onclick={() => ($form.selectedDay = day)}
+								>
+									<span class="text-[9px] uppercase font-mono tracking-wider opacity-75">
+										{daysLabelArray[i]}
+									</span>
 									<span class="text-sm font-black mt-1">{day}</span>
 								</button>
 							{/each}
 						</div>
-						{#if $errors.selectedDay}<p class="text-rose-500 text-[11px] font-mono mt-1">{$errors.selectedDay}</p>{/if}
+						{#if $errors.selectedDay}<p class="text-rose-500 text-[11px] font-mono mt-1">
+								{$errors.selectedDay}
+							</p>{/if}
 
-						<h4 class="text-[11px] font-mono font-bold text-ax-textMuted mb-3 uppercase tracking-wider">Sélectionnez une heure</h4>
+						<h4
+							class="text-[11px] font-mono font-bold text-ax-textMuted mb-3 uppercase tracking-wider"
+						>
+							Sélectionnez une heure
+						</h4>
 						<div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-6">
 							{#each listHours as hour}
-								<button type="button" class="p-2.5 rounded-xl text-xs font-mono font-bold text-center transition-all border { $form.selectedHour === hour ? 'bg-ax-deep text-white border-ax-deep shadow-md' : 'bg-white border-slate-200 hover:border-slate-400 text-ax-textDark' }" onclick={() => $form.selectedHour = hour}>
+								<button
+									type="button"
+									class="p-2.5 rounded-xl text-xs font-mono font-bold text-center transition-all border {$form.selectedHour ===
+									hour
+										? 'bg-ax-deep text-white border-ax-deep shadow-md'
+										: 'bg-white border-slate-200 hover:border-slate-400 text-ax-textDark'}"
+									onclick={() => ($form.selectedHour = hour)}
+								>
 									{hour}
 								</button>
 							{/each}
 						</div>
-						{#if $errors.selectedHour}<p class="text-rose-500 text-[11px] font-mono mt-1">{$errors.selectedHour}</p>{/if}
+						{#if $errors.selectedHour}<p class="text-rose-500 text-[11px] font-mono mt-1">
+								{$errors.selectedHour}
+							</p>{/if}
 					</div>
 
 					<div class="space-y-4 border-t border-slate-100 pt-6">
 						<input type="hidden" name="selectedDay" bind:value={$form.selectedDay} />
 						<input type="hidden" name="selectedHour" bind:value={$form.selectedHour} />
 
-						<div class="bg-slate-50 rounded-xl p-3 border border-slate-150 font-mono text-xs flex justify-between items-center">
+						<div
+							class="bg-slate-50 rounded-xl p-3 border border-slate-150 font-mono text-xs flex justify-between items-center"
+						>
 							<span class="text-ax-textMuted">Rendez-vous choisi :</span>
 							<span class="font-bold text-ax-primary">
 								{#if $form.selectedDay && $form.selectedHour}
@@ -1065,21 +1042,58 @@
 
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<div class="flex flex-col">
-								<input type="text" name="name" bind:value={$form.name} {...$constraints.name} placeholder="Votre nom complet" class="bg-white border {$errors.name ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors" />
-								{#if $errors.name}<span class="text-rose-500 text-[10px] font-mono mt-1">{$errors.name}</span>{/if}
+								<input
+									type="text"
+									name="name"
+									bind:value={$form.name}
+									{...$constraints.name}
+									placeholder="Votre nom complet"
+									class="bg-white border {$errors.name
+										? 'border-rose-400 focus:border-rose-500'
+										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
+								/>
+								{#if $errors.name}<span class="text-rose-500 text-[10px] font-mono mt-1"
+										>{$errors.name}</span
+									>{/if}
 							</div>
 							<div class="flex flex-col">
-								<input type="email" name="email" bind:value={$form.email} {...$constraints.email} placeholder="Votre e-mail" class="bg-white border {$errors.email ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors" />
-								{#if $errors.email}<span class="text-rose-500 text-[10px] font-mono mt-1">{$errors.email}</span>{/if}
+								<input
+									type="email"
+									name="email"
+									bind:value={$form.email}
+									{...$constraints.email}
+									placeholder="Votre e-mail"
+									class="bg-white border {$errors.email
+										? 'border-rose-400 focus:border-rose-500'
+										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
+								/>
+								{#if $errors.email}<span class="text-rose-500 text-[10px] font-mono mt-1"
+										>{$errors.email}</span
+									>{/if}
 							</div>
 						</div>
 
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<div class="flex flex-col">
-								<input type="tel" name="phone" bind:value={$form.phone} {...$constraints.phone} placeholder="Téléphone portable" class="bg-white border {$errors.phone ? 'border-rose-400 focus:border-rose-500' : 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors" />
-								{#if $errors.phone}<span class="text-rose-500 text-[10px] font-mono mt-1">{$errors.phone}</span>{/if}
+								<input
+									type="tel"
+									name="phone"
+									bind:value={$form.phone}
+									{...$constraints.phone}
+									placeholder="Téléphone portable"
+									class="bg-white border {$errors.phone
+										? 'border-rose-400 focus:border-rose-500'
+										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
+								/>
+								{#if $errors.phone}<span class="text-rose-500 text-[10px] font-mono mt-1"
+										>{$errors.phone}</span
+									>{/if}
 							</div>
-							<button type="submit" disabled={$delayed} class="bg-ax-primary hover:bg-ax-royal text-white font-extrabold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-50 shadow-md shadow-blue-500/10">
+							<button
+								type="submit"
+								disabled={$delayed}
+								class="bg-ax-primary hover:bg-ax-royal text-white font-extrabold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-50 shadow-md shadow-blue-500/10"
+							>
 								{#if $delayed}Traitement...{:else}Confirmer le rendez-vous{/if}
 							</button>
 						</div>
@@ -1090,19 +1104,134 @@
 	</div>
 </section>
 
+<!-- SECTION: GOOGLE REVIEWS (Social Proof Banner) -->
+<section class="py-14 bg-white border-b border-slate-100">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<!-- Section Header -->
+		<div class="flex flex-col items-center text-center mb-10">
+			<div
+				class="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full text-amber-500 font-mono text-xs font-bold mb-3 shadow-sm"
+			>
+				<i class="fa-solid fa-star"></i>
+				<i class="fa-solid fa-star"></i>
+				<i class="fa-solid fa-star"></i>
+				<i class="fa-solid fa-star"></i>
+				<i class="fa-solid fa-star"></i>
+				<span class="text-slate-700 ml-1">5.0 / 5 sur Google Reviews</span>
+			</div>
+			<h2 class="font-display text-2xl sm:text-3xl font-extrabold text-ax-textDark tracking-tight">
+				Ils parlent de nous, ils nous font confiance
+			</h2>
+		</div>
+
+		<!-- Reviews Grid -->
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+			<!-- Review 1 -->
+			<div
+				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
+			>
+				<div>
+					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+							class="fa-solid fa-star"
+						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					</div>
+					<p class="text-xs text-ax-textMuted leading-relaxed italic">
+						"Yaniv m'a accompagné pour le lancement de mon activité. Conseils clairs, structure
+						optimisée en 48h et prise en main de l'outil Pennylane d'une simplicité remarquable. Un
+						vrai gain de temps !"
+					</p>
+				</div>
+				<div
+					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
+				>
+					<span class="font-bold text-ax-textDark">Alexandre M. • Consultant</span>
+					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
+					>
+				</div>
+			</div>
+
+			<!-- Review 2 -->
+			<div
+				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
+			>
+				<div>
+					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+							class="fa-solid fa-star"
+						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					</div>
+					<p class="text-xs text-ax-textMuted leading-relaxed italic">
+						"Je redoutais le transfert de ma comptabilité depuis mon ancien cabinet, mais Audaxem a
+						tout géré de manière fluide et transparente. Réponse toujours sous 24h, très pro et
+						disponible."
+					</p>
+				</div>
+				<div
+					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
+				>
+					<span class="font-bold text-ax-textDark">Marine D. • Co-fondatrice Agence</span>
+					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
+					>
+				</div>
+			</div>
+
+			<!-- Review 3 -->
+			<div
+				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
+			>
+				<div>
+					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+							class="fa-solid fa-star"
+						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+					</div>
+					<p class="text-xs text-ax-textMuted leading-relaxed italic">
+						"Un accompagnement proactif précieux. Au-delà des chiffres, Yaniv apporte de réels
+						conseils d'optimisation fiscale et sociale pour mon entreprise au quotidien. Je
+						recommande les yeux fermés."
+					</p>
+				</div>
+				<div
+					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
+				>
+					<span class="font-bold text-ax-textDark">Thomas L. • Artisan d'art</span>
+					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
+					>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 {#if isModalOpen}
-	<div class="fixed inset-0 bg-ax-deep/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-		<div class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-mono text-xs">
-			<div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+	<div
+		class="fixed inset-0 bg-ax-deep/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+	>
+		<div
+			class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-mono text-xs"
+		>
+			<div
+				class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl"
+			>
 				<i class="fa-solid fa-circle-check"></i>
 			</div>
 			<h3 class="text-sm font-display font-extrabold text-ax-textDark uppercase tracking-wider">
 				Créneau réservé !
 			</h3>
 			<p class="text-ax-textMuted leading-relaxed font-sans">
-				Félicitations <strong>{$form.name}</strong>, votre rendez-vous conseil de 15 minutes avec Yaniv Choukroun est enregistré pour le <strong>{$form.selectedDay} Juillet 2026 à {$form.selectedHour}</strong>.
+				Félicitations <strong>{$form.name}</strong>, votre rendez-vous conseil de 15 minutes avec
+				Yaniv Choukroun est enregistré pour le
+				<strong>{$form.selectedDay} Juillet 2026 à {$form.selectedHour}</strong>.
 			</p>
-			<button type="button" onclick={() => isModalOpen = false} class="w-full bg-ax-primary hover:bg-ax-royal text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-all">
+			<button
+				type="button"
+				onclick={() => (isModalOpen = false)}
+				class="w-full bg-ax-primary hover:bg-ax-royal text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-all"
+			>
 				Fermer
 			</button>
 		</div>
@@ -1153,7 +1282,7 @@
 <!-- Footer Area (High Contrast, Shades of Blue) -->
 <footer class="bg-ax-deep text-slate-400 pt-16 pb-8 border-t border-slate-800">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-12 mb-12">
 			<!-- Branding -->
 			<div class="space-y-4">
 				<div class="flex items-center space-x-3">
@@ -1194,53 +1323,18 @@
 				<h4 class="text-white font-display font-bold text-xs uppercase tracking-wider">Domaines</h4>
 				<ul class="space-y-2 text-xs text-slate-400 font-mono">
 					<li>
-						<a href="#services" class="hover:text-white transition-colors">Tenue comptable</a>
+						<a href="/" class="hover:text-white transition-colors">Accueil</a>
 					</li>
 					<li>
-						<a href="#services" class="hover:text-white transition-colors">Bulletins de paie</a>
+						<a href="#services" class="hover:text-white transition-colors">Services</a>
 					</li>
 					<li>
-						<a href="#services" class="hover:text-white transition-colors">Création SASU & EURL</a>
+						<a href="#a-propos" class="hover:text-white transition-colors">À propos</a>
 					</li>
 					<li>
-						<a href="#services" class="hover:text-white transition-colors">Optimisation fiscale</a>
+						<a href="#contact" class="hover:text-white transition-colors">Contact</a>
 					</li>
 				</ul>
-			</div>
-
-			<!-- Newsletter Subscription -->
-			<div class="space-y-4">
-				<h4 class="text-white font-display font-bold text-xs uppercase tracking-wider">
-					Fiches Conseils
-				</h4>
-				<p class="text-xs text-slate-400 leading-relaxed">
-					Recevez nos notes d'optimisation rédigées directement par Yaniv Choukroun.
-				</p>
-				<form
-					onsubmit={() => {
-						event.preventDefault();
-						document.getElementById('news-success').classList.remove('hidden');
-					}}
-					class="flex gap-2"
-				>
-					<input
-						type="email"
-						placeholder="Adresse e-mail"
-						required
-						class="bg-white/5 text-white placeholder-slate-600 border border-white/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-white w-full"
-					/>
-					<button
-						type="submit"
-						class="bg-white text-ax-deep font-bold px-3 py-2 rounded-lg text-xs hover:bg-slate-200 transition-colors"
-						>OK</button
-					>
-				</form>
-				<p
-					id="news-success"
-					class="hidden text-[10px] text-emerald-400 font-mono mt-1 font-semibold"
-				>
-					Inscription validée !
-				</p>
 			</div>
 		</div>
 
@@ -1248,7 +1342,7 @@
 		<div
 			class="border-t border-slate-800 pt-8 mt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-slate-600 gap-4"
 		>
-			<p>© 2026 Audaxem Conseil. Dirigé par Yaniv Choukroun. Tous droits réservés.</p>
+			<p>&copy; 2026 Audaxem Conseil. Dirigé par Yaniv Choukroun. Tous droits réservés.</p>
 			<div class="flex gap-4">
 				<a href="#" class="hover:text-white transition-colors">Mentions Légales</a>
 				<a href="#" class="hover:text-white transition-colors">Confidentialité</a>
