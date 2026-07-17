@@ -29,7 +29,7 @@
 	});
 
 	function startTypewriter() {
-		const targetPhrase = "le cabinet proactif des entrepreneurs ambitieux.";
+		const targetPhrase = 'le cabinet proactif des entrepreneurs ambitieux.';
 		const typewriterElement = document.getElementById('typewriter-text');
 		if (!typewriterElement) return;
 		let index = 0;
@@ -75,7 +75,7 @@
 		<div class="flex justify-between h-20">
 			<!-- Logo Left: Combined text in dark blue -->
 			<div class="flex items-center">
-				<a href="#accueil" class="flex items-center space-x-3">
+				<a href="/" class="flex items-center space-x-3">
 					<img src={logo} class="w-20 h-20" />
 					<div class="flex flex-col">
 						<span
@@ -90,7 +90,7 @@
 			<!-- Desktop Nav Tabs (Accueil, Services, A propos, Contact) -->
 			<div class="hidden md:flex items-center space-x-8">
 				<a
-					href="#accueil"
+					href="/"
 					class="text-ax-textMuted hover:text-ax-primary font-semibold text-sm transition-colors"
 					>Accueil</a
 				>
@@ -112,10 +112,7 @@
 
 				<div class="h-6 w-px bg-slate-200"></div>
 
-				<a
-					href="tel:0603962664"
-					class="text-[#0F4585] font-mono text-sm flex items-center gap-2"
-				>
+				<a href="tel:0603962664" class="text-[#0F4585] font-mono text-sm flex items-center gap-2">
 					<i class="fa-solid fa-phone text-ax-primary text-xs"></i> 06 03 96 26 64
 				</a>
 				<a
@@ -143,9 +140,8 @@
 		id="mobile-menu"
 		class="hidden md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-6 space-y-3 shadow-lg"
 	>
-		<a
-			href="#accueil"
-			class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm">Accueil</a
+		<a href="/" class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm"
+			>Accueil</a
 		>
 		<a
 			href="#services"
@@ -1105,107 +1101,111 @@
 </section>
 
 <!-- SECTION: GOOGLE REVIEWS (Social Proof Banner) -->
-<section class="py-14 bg-white border-b border-slate-100">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<!-- Section Header -->
-		<div class="flex flex-col items-center text-center mb-10">
-			<div
-				class="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full text-amber-500 font-mono text-xs font-bold mb-3 shadow-sm"
-			>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<span class="text-slate-700 ml-1">5.0 / 5 sur Google Reviews</span>
+{#if false}
+	<section class="py-14 bg-white border-b border-slate-100">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<!-- Section Header -->
+			<div class="flex flex-col items-center text-center mb-10">
+				<div
+					class="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full text-amber-500 font-mono text-xs font-bold mb-3 shadow-sm"
+				>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<span class="text-slate-700 ml-1">5.0 / 5 sur Google Reviews</span>
+				</div>
+				<h2
+					class="font-display text-2xl sm:text-3xl font-extrabold text-ax-textDark tracking-tight"
+				>
+					Ils parlent de nous, ils nous font confiance
+				</h2>
 			</div>
-			<h2 class="font-display text-2xl sm:text-3xl font-extrabold text-ax-textDark tracking-tight">
-				Ils parlent de nous, ils nous font confiance
-			</h2>
+
+			<!-- Reviews Grid -->
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<!-- Review 1 -->
+				<div
+					class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
+				>
+					<div>
+						<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+							<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+								class="fa-solid fa-star"
+							></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+						</div>
+						<p class="text-xs text-ax-textMuted leading-relaxed italic">
+							"Yaniv m'a accompagné pour le lancement de mon activité. Conseils clairs, structure
+							optimisée en 48h et prise en main de l'outil Pennylane d'une simplicité remarquable.
+							Un vrai gain de temps !"
+						</p>
+					</div>
+					<div
+						class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
+					>
+						<span class="font-bold text-ax-textDark">Alexandre M. • Consultant</span>
+						<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+							><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
+						>
+					</div>
+				</div>
+
+				<!-- Review 2 -->
+				<div
+					class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
+				>
+					<div>
+						<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+							<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+								class="fa-solid fa-star"
+							></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+						</div>
+						<p class="text-xs text-ax-textMuted leading-relaxed italic">
+							"Je redoutais le transfert de ma comptabilité depuis mon ancien cabinet, mais Audaxem
+							a tout géré de manière fluide et transparente. Réponse toujours sous 24h, très pro et
+							disponible."
+						</p>
+					</div>
+					<div
+						class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
+					>
+						<span class="font-bold text-ax-textDark">Marine D. • Co-fondatrice Agence</span>
+						<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+							><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
+						>
+					</div>
+				</div>
+
+				<!-- Review 3 -->
+				<div
+					class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
+				>
+					<div>
+						<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+							<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+								class="fa-solid fa-star"
+							></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+						</div>
+						<p class="text-xs text-ax-textMuted leading-relaxed italic">
+							"Un accompagnement proactif précieux. Au-delà des chiffres, Yaniv apporte de réels
+							conseils d'optimisation fiscale et sociale pour mon entreprise au quotidien. Je
+							recommande les yeux fermés."
+						</p>
+					</div>
+					<div
+						class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
+					>
+						<span class="font-bold text-ax-textDark">Thomas L. • Artisan d'art</span>
+						<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+							><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
+						>
+					</div>
+				</div>
+			</div>
 		</div>
-
-		<!-- Reviews Grid -->
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-			<!-- Review 1 -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-							class="fa-solid fa-star"
-						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed italic">
-						"Yaniv m'a accompagné pour le lancement de mon activité. Conseils clairs, structure
-						optimisée en 48h et prise en main de l'outil Pennylane d'une simplicité remarquable. Un
-						vrai gain de temps !"
-					</p>
-				</div>
-				<div
-					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
-				>
-					<span class="font-bold text-ax-textDark">Alexandre M. • Consultant</span>
-					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
-						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
-					>
-				</div>
-			</div>
-
-			<!-- Review 2 -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-							class="fa-solid fa-star"
-						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed italic">
-						"Je redoutais le transfert de ma comptabilité depuis mon ancien cabinet, mais Audaxem a
-						tout géré de manière fluide et transparente. Réponse toujours sous 24h, très pro et
-						disponible."
-					</p>
-				</div>
-				<div
-					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
-				>
-					<span class="font-bold text-ax-textDark">Marine D. • Co-fondatrice Agence</span>
-					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
-						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
-					>
-				</div>
-			</div>
-
-			<!-- Review 3 -->
-			<div
-				class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50 shadow-sm flex flex-col justify-between"
-			>
-				<div>
-					<div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
-						<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-							class="fa-solid fa-star"
-						></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-					</div>
-					<p class="text-xs text-ax-textMuted leading-relaxed italic">
-						"Un accompagnement proactif précieux. Au-delà des chiffres, Yaniv apporte de réels
-						conseils d'optimisation fiscale et sociale pour mon entreprise au quotidien. Je
-						recommande les yeux fermés."
-					</p>
-				</div>
-				<div
-					class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
-				>
-					<span class="font-bold text-ax-textDark">Thomas L. • Artisan d'art</span>
-					<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
-						><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
-					>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
+	</section>
+{/if}
 
 {#if isModalOpen}
 	<div
