@@ -29,7 +29,7 @@
 	});
 
 	function startTypewriter() {
-		const targetPhrase = "le cabinet proactif des entreprises qui ont un temps d'avance.";
+		const targetPhrase = "le cabinet proactif des entrepreneurs ambitieux.";
 		const typewriterElement = document.getElementById('typewriter-text');
 		if (!typewriterElement) return;
 		let index = 0;
@@ -79,7 +79,7 @@
 					<img src={logo} class="w-20 h-20" />
 					<div class="flex flex-col">
 						<span
-							class="font-display text-2xl font-extrabold text-[#254789] tracking-tight leading-tight"
+							class="font-display text-2xl font-extrabold tracking-tight leading-tight text-[#0F4585]"
 						>
 							Audaxem Conseil
 						</span>
@@ -114,7 +114,7 @@
 
 				<a
 					href="tel:0603962664"
-					class="text-slate-700 hover:text-ax-primary font-mono text-sm flex items-center gap-2"
+					class="text-[#0F4585] font-mono text-sm flex items-center gap-2"
 				>
 					<i class="fa-solid fa-phone text-ax-primary text-xs"></i> 06 03 96 26 64
 				</a>
@@ -190,7 +190,7 @@
 
 				<!-- Headline with Fixed Height Container & Typewriter Target Elements -->
 				<h1
-					class="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#254789] leading-tight tracking-tight min-h-[120px] sm:min-h-[100px] lg:min-h-[150px]"
+					class="font-display text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#0F4585] leading-tight tracking-tight min-h-[120px] sm:min-h-[100px] lg:min-h-[150px]"
 				>
 					Audaxem Conseil : <span id="typewriter-text" class=""></span><span
 						class="ml-1 inline-block animate-pulse">|</span
