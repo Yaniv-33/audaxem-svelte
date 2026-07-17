@@ -45,9 +45,9 @@
 	}
 
 	// États locaux réactifs
-	let selectedProjectType = 'lancer';
-	let calendarWeekOffset = 0;
-	let isModalOpen = false;
+	let selectedProjectType = $state('lancer');
+	let calendarWeekOffset = $state(0);
+	let isModalOpen = $state(false);
 
 	// Données du calendrier
 	const daysLabelArray = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
@@ -62,11 +62,6 @@
 	function changeWeek(direction) {
 		if (direction === 'prev' && calendarWeekOffset > 0) calendarWeekOffset--;
 		if (direction === 'next') calendarWeekOffset++;
-	}
-
-	function selectProject(type) {
-		selectedProjectType = type;
-		// ... conservez votre logique de modification de classes/labels du Wizard si nécessaire
 	}
 </script>
 
@@ -240,9 +235,12 @@
 					<div class="space-y-3">
 						<!-- Option 1: Lancer mon entreprise -->
 						<div
-							onclick={selectProject('lancer')}
+							onclick={() => {
+								selectedProjectType = 'lancer';
+							}}
 							id="proj-lancer"
-							class="wizard-card active border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
+							class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
+							class:active={selectedProjectType == "lancer"}
 						>
 							<div class="flex items-start gap-3">
 								<div
@@ -261,15 +259,18 @@
 								class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
 								id="bullet-lancer"
 							>
-								<div class="w-2.5 h-2.5 rounded-full bg-ax-primary"></div>
+								<div class="w-2.5 h-2.5 rounded-full" class:bg-ax-primary={selectedProjectType == "lancer"}></div>
 							</div>
 						</div>
 
 						<!-- Option 2: Changer de cabinet -->
 						<div
-							onclick={selectProject('changer')}
+							onclick={() => {
+								selectedProjectType = 'changer';
+							}}
 							id="proj-changer"
 							class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
+							class:active={selectedProjectType == "changer"}
 						>
 							<div class="flex items-start gap-3">
 								<div
@@ -287,14 +288,19 @@
 							<div
 								class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
 								id="bullet-changer"
-							></div>
+							>
+								<div class="w-2.5 h-2.5 rounded-full" class:bg-ax-primary={selectedProjectType == "changer"}></div>
+							</div>
 						</div>
 
 						<!-- Option 3: Remettre ma compta au carré -->
 						<div
-							onclick={selectProject('carre')}
+							onclick={() => {
+								selectedProjectType = 'carre';
+							}}
 							id="proj-carre"
 							class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
+							class:active={selectedProjectType == "carre"}
 						>
 							<div class="flex items-start gap-3">
 								<div
@@ -312,7 +318,7 @@
 							<div
 								class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
 								id="bullet-carre"
-							></div>
+							><div class="w-2.5 h-2.5 rounded-full" class:bg-ax-primary={selectedProjectType == "carre"}></div></div>
 						</div>
 					</div>
 
@@ -947,6 +953,7 @@
 				class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm flex flex-col justify-between"
 			>
 				<form method="POST" action="?/bookAppointment" use:enhance class="space-y-6">
+					<input type="hidden" name="rdv_type" value={selectedProjectType} />
 					<div>
 						<h3
 							class="text-sm font-display font-extrabold text-ax-textDark mb-6 uppercase tracking-wider flex items-center gap-2"
