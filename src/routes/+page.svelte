@@ -18,6 +18,9 @@
 	let mBtn;
 	let mMenu;
 
+	// todo: avis google
+	// todo: a propos rendre humain
+
 	onMount(() => {
 		mBtn = document.getElementById('mobile-menu-btn');
 		mMenu = document.getElementById('mobile-menu');
@@ -48,6 +51,30 @@
 	let selectedProjectType = $state('lancer');
 	let calendarWeekOffset = $state(0);
 	let isModalOpen = $state(false);
+
+	const projects_types = [
+		{
+			key: 'lancer',
+			gradient: 'from-ax-primary to-blue-600',
+			icon: 'fa-rocket',
+			title: 'Lancer mon entreprise',
+			desc: 'Création clé en main, conseils stratégiques et structure juridique optimisée.'
+		},
+		{
+			key: 'changer',
+			gradient: 'from-slate-600 to-ax-royal',
+			icon: 'fa-arrow-right-arrow-left',
+			title: 'Changer de cabinet',
+			desc: 'Transition maîtrisée, récupération du dossier sans rupture et pilotage renforcé.'
+		},
+		{
+			key: 'carre',
+			gradient: 'from-emerald-500 to-emerald-700',
+			icon: 'fa-broom',
+			title: 'Remettre ma compta au carré',
+			desc: 'Rattrapage express, nettoyage complet et vision claire pour avancer.'
+		}
+	];
 
 	// Données du calendrier
 	const daysLabelArray = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
@@ -107,7 +134,7 @@
 
 				<div class="h-6 w-px bg-slate-200"></div>
 
-				<a href="tel:0603962664" class="text-[#0F4585] font-mono text-sm flex items-center gap-2">
+				<a href="tel:0603962664" class="text-[#0F4585] font-display text-sm flex items-center gap-2">
 					<i class="fa-solid fa-phone text-ax-primary text-xs"></i> 06 03 96 26 64
 				</a>
 				<a
@@ -151,7 +178,7 @@
 			class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm">Contact</a
 		>
 		<hr class="border-slate-100 my-2" />
-		<a href="tel:0603962664" class="block py-2 text-slate-700 font-mono text-sm"
+		<a href="tel:0603962664" class="block py-2 text-slate-700 font-display text-sm"
 			><i class="fa-solid fa-phone text-ax-primary mr-1"></i> 06 03 96 26 64</a
 		>
 		<a
@@ -234,92 +261,39 @@
 					<!-- Wizard Steps Custom Options -->
 					<div class="space-y-3">
 						<!-- Option 1: Lancer mon entreprise -->
-						<div
-							onclick={() => {
-								selectedProjectType = 'lancer';
-							}}
-							id="proj-lancer"
-							class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
-							class:active={selectedProjectType == "lancer"}
-						>
-							<div class="flex items-start gap-3">
-								<div
-									class="w-11 h-11 rounded-xl bg-gradient-to-br from-ax-primary to-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25"
-								>
-									<i class="fa-solid fa-rocket text-sm"></i>
-								</div>
-								<div class="pr-2">
-									<h4 class="text-sm font-bold text-ax-textDark">Lancer mon entreprise</h4>
-									<p class="text-xs text-ax-textMuted mt-0.5 leading-snug">
-										Création clé en main, conseils stratégiques et structure juridique optimisée.
-									</p>
-								</div>
-							</div>
+						{#each projects_types as p}
 							<div
-								class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
-								id="bullet-lancer"
+								onclick={() => {
+									selectedProjectType = p.key;
+								}}
+								id="proj-lancer"
+								class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
+								class:active={selectedProjectType == p.key}
 							>
-								<div class="w-2.5 h-2.5 rounded-full" class:bg-ax-primary={selectedProjectType == "lancer"}></div>
-							</div>
-						</div>
-
-						<!-- Option 2: Changer de cabinet -->
-						<div
-							onclick={() => {
-								selectedProjectType = 'changer';
-							}}
-							id="proj-changer"
-							class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
-							class:active={selectedProjectType == "changer"}
-						>
-							<div class="flex items-start gap-3">
+								<div class="flex items-start gap-4">
+									<div
+										class="w-11 h-11 rounded-xl bg-gradient-to-br {p.gradient} text-white flex items-center justify-center shadow-md shadow-blue-500/25"
+									>
+										<i class="fa-solid {p.icon} text-sm"></i>
+									</div>
+									<div class="pr-2">
+										<h4 class="text-sm font-bold text-ax-textDark">{p.title}</h4>
+										<p class="text-xs text-ax-textMuted mt-0.5 leading-snug max-w-[350px]">
+											{p.desc}
+										</p>
+									</div>
+								</div>
 								<div
-									class="w-11 h-11 rounded-xl bg-gradient-to-br from-slate-600 to-ax-royal text-white flex items-center justify-center shadow-md shadow-slate-500/25"
+									class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
+									id="bullet-lancer"
 								>
-									<i class="fa-solid fa-arrow-right-arrow-left text-sm"></i>
-								</div>
-								<div class="pr-2">
-									<h4 class="text-sm font-bold text-ax-textDark">Changer de cabinet</h4>
-									<p class="text-xs text-ax-textMuted mt-0.5 leading-snug">
-										Transition maîtrisée, récupération du dossier sans rupture et pilotage renforcé.
-									</p>
+									<div
+										class="w-2.5 h-2.5 rounded-full"
+										class:bg-ax-primary={selectedProjectType == p.key}
+									></div>
 								</div>
 							</div>
-							<div
-								class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
-								id="bullet-changer"
-							>
-								<div class="w-2.5 h-2.5 rounded-full" class:bg-ax-primary={selectedProjectType == "changer"}></div>
-							</div>
-						</div>
-
-						<!-- Option 3: Remettre ma compta au carré -->
-						<div
-							onclick={() => {
-								selectedProjectType = 'carre';
-							}}
-							id="proj-carre"
-							class="wizard-card border border-slate-150 p-4 rounded-xl cursor-pointer flex justify-between items-center bg-white"
-							class:active={selectedProjectType == "carre"}
-						>
-							<div class="flex items-start gap-3">
-								<div
-									class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white flex items-center justify-center shadow-md shadow-emerald-500/25"
-								>
-									<i class="fa-solid fa-broom text-sm"></i>
-								</div>
-								<div class="pr-2">
-									<h4 class="text-sm font-bold text-ax-textDark">Remettre ma compta au carré</h4>
-									<p class="text-xs text-ax-textMuted mt-0.5 leading-snug">
-										Rattrapage express, nettoyage complet et vision claire pour avancer.
-									</p>
-								</div>
-							</div>
-							<div
-								class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-ax-primary font-bold text-xs flex-shrink-0"
-								id="bullet-carre"
-							><div class="w-2.5 h-2.5 rounded-full" class:bg-ax-primary={selectedProjectType == "carre"}></div></div>
-						</div>
+						{/each}
 					</div>
 
 					<!-- Action Submit Form Button -->
@@ -328,10 +302,12 @@
 							href="#contact"
 							class="w-full bg-ax-primary hover:bg-ax-royal text-white text-center py-4 rounded-xl font-bold text-xs shadow-md transition-all uppercase tracking-wider flex items-center justify-center gap-2"
 						>
-							<span id="wizard-cta-label">Lancer mon entreprise</span>
+							<span id="wizard-cta-label"
+								>{projects_types.find((el) => el.key == selectedProjectType).title}</span
+							>
 							<i class="fa-solid fa-chevron-right text-[10px]"></i>
 						</a>
-						<p class="text-[10px] text-center text-ax-textMuted mt-3 font-mono">
+						<p class="text-[10px] text-center text-ax-textMuted mt-3 font-display">
 							Discuter de mon projet professionnel avec Yaniv en 15 min
 						</p>
 					</div>
@@ -350,7 +326,7 @@
 		<!-- Header Section -->
 		<div class="max-w-4xl mx-auto text-center mb-20">
 			<span
-				class="text-ax-primary font-extrabold text-xs uppercase tracking-widest block mb-4 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full"
+				class="text-ax-primary font-extrabold text-xs uppercase tracking-widest block mb-4 font-display bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full"
 			>
 				Nos offres sur-mesure
 			</span>
@@ -385,7 +361,7 @@
 									Tenue comptable & optimisation
 								</h3>
 								<span
-									class="text-[10px] font-mono font-bold text-ax-primary uppercase bg-blue-50 px-2 py-0.5 rounded-md"
+									class="text-[10px] font-display font-bold text-ax-primary uppercase bg-blue-50 px-2 py-0.5 rounded-md"
 									>Pilotage Réel</span
 								>
 							</div>
@@ -393,8 +369,7 @@
 					</div>
 
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						Votre gestion, simplifiée et pilotée au quotidien. Nous transformons vos obligations
-						comptables en réels outils de visibilité financière.
+						Une gestion simplifiée. Une visibilité renforcée. Une compta qui pilote.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
@@ -402,31 +377,28 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
 							<span
-								><strong>Tenue & supervision :</strong> Organisation et suivi rigoureux de votre comptabilité
-								courante.</span
+								><strong>Tenue & supervision :</strong> nous assurons une tenue rigoureuse et un pilotage continu de votre comptabilité pour garder une vision claire de votre activité.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
 							<span
-								><strong>États financiers :</strong> Production rapide de vos bilans, comptes de résultat
-								et liasses fiscales.</span
+								><strong>États financiers :</strong> bilan, compte de résultat et liasse fiscale établis avec précision et transmis dans les échéances légales, sans stress.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
 							<span
-								><strong>Tableaux de bord :</strong> Indicateurs clés personnalisés pour piloter sereinement
-								votre trésorerie.</span
+								><strong>Tableaux de bord :</strong> une lecture simple et actionnable de votre trésorerie pour piloter sereinement et décider plus vite.</span
 							>
 						</li>
 					</ul>
 				</div>
 				<div
-					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-ax-primary"
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-display font-bold text-ax-primary"
 				>
 					<span class="flex items-center gap-1.5"
-						><i class="fa-solid fa-laptop-code text-sm"></i> Outils Pennylane inclus</span
+						><i class="fa-solid fa-laptop-code text-sm"></i> Outil comptable Pennylane inclus</span
 					>
 					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
 					></i>
@@ -454,7 +426,7 @@
 									Gestion sociale
 								</h3>
 								<span
-									class="text-[10px] font-mono font-bold text-purple-600 uppercase bg-purple-50 px-2 py-0.5 rounded-md"
+									class="text-[10px] font-display font-bold text-purple-600 uppercase bg-purple-50 px-2 py-0.5 rounded-md"
 									>Conformité RH</span
 								>
 							</div>
@@ -462,8 +434,7 @@
 					</div>
 
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						La paie sans stress, le volet social totalement sécurisé. Nous vous déchargeons de la
-						complexité de la réglementation RH.
+						Vos bulletins en 48h. La paie sans stress. Zéro erreur.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
@@ -471,31 +442,28 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
 							<span
-								><strong>Bulletins de paie :</strong> Édition conforme des bulletins et gestion complète
-								des absences ou congés.</span
+								><strong>Bulletins de paie :</strong> des bulletins conformes, livrés en 48h, avec gestion fluide des absences et congés.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
 							<span
-								><strong>Déclarations sociales :</strong> Télétransmission sécurisée de vos DSN et échanges
-								avec les organismes.</span
+								><strong>Déclarations sociales :</strong> DSN télétransmises en toute sécurité et échanges maîtrisés avec les organismes.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
 							<span
-								><strong>Sécurité juridique :</strong> Rédaction de contrats de travail, avenants et procédures
-								de rupture.</span
+								><strong>Sécurité juridique :</strong> contrats, avenants et procédures de rupture rédigés avec précision et conformité.</span
 							>
 						</li>
 					</ul>
 				</div>
 				<div
-					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-purple-600"
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-display font-bold text-purple-600"
 				>
 					<span class="flex items-center gap-1.5"
-						><i class="fa-solid fa-users text-sm"></i> Stabilité réglementaire Silae</span
+						><i class="fa-solid fa-users text-sm"></i> Outil social Silae inclus</span
 					>
 					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
 					></i>
@@ -523,7 +491,7 @@
 									Formalités juridiques & création
 								</h3>
 								<span
-									class="text-[10px] font-mono font-bold text-orange-600 uppercase bg-orange-50 px-2 py-0.5 rounded-md"
+									class="text-[10px] font-display font-bold text-orange-600 uppercase bg-orange-50 px-2 py-0.5 rounded-md"
 									>Structure Clé en main</span
 								>
 							</div>
@@ -531,8 +499,7 @@
 					</div>
 
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						Créer, modifier, sécuriser : on s'occupe de tout. Une protection juridique optimale dès
-						le premier jour de votre entreprise.
+						On s'occupe de tout : créer, modifier & sécuriser.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
@@ -540,28 +507,25 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
 							<span
-								><strong>Création d'entreprise :</strong> Conseil sur la forme sociale adaptée (SASU,
-								EURL, SAS, SARL) et statuts.</span
+								><strong>Création d'entreprise :</strong> du choix de la forme sociale jusqu’au Kbis : un accompagnement complet et rapide.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
 							<span
-								><strong>Secrétariat juridique annuel :</strong> Rédaction des assemblées générales ordinaires
-								(AGO) et dépôt des comptes.</span
+								><strong>Secrétariat juridique annuel :</strong> PV d’assemblées générales rédigés et comptes déposés au greffe dans les délais.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
 							<span
-								><strong>Modifications statutaires :</strong> Gestion des transferts de siège, augmentations
-								de capital ou changements d'objet.</span
+								><strong>Modifications statutaires :</strong> transfert de siège, augmentation de capital, changement d’objet : vos évolutions, traitées sans friction.</span
 							>
 						</li>
 					</ul>
 				</div>
 				<div
-					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-orange-600"
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-display font-bold text-orange-600"
 				>
 					<span class="flex items-center gap-1.5"
 						><i class="fa-solid fa-gavel text-sm"></i> Formalités & Statuts sous 48h</span
@@ -592,7 +556,7 @@
 									Gestion fiscale
 								</h3>
 								<span
-									class="text-[10px] font-mono font-bold text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-md"
+									class="text-[10px] font-display font-bold text-emerald-600 uppercase bg-emerald-50 px-2 py-0.5 rounded-md"
 									>Optimisation</span
 								>
 							</div>
@@ -600,8 +564,7 @@
 					</div>
 
 					<p class="text-xs text-ax-textDark mb-6 leading-relaxed font-semibold">
-						Votre fiscalité, optimisée, arbitrée et sous contrôle. Nous étudions chaque levier légal
-						pour maximiser votre net disponible.
+						On analyse, on conseille, on optimise vos comptes pour booster votre performance.
 					</p>
 
 					<!-- Detailed Mission Checklist -->
@@ -609,31 +572,28 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
 							<span
-								><strong>Déclarations d'impôts :</strong> Prise en charge de la TVA, de la CFE, de l'IS
-								et sécurisation de vos échéances.</span
+								><strong>Déclarations d'impôts :</strong> vos déclarations fiscales (TVA, IS, CVAE, CFE...) optimisées et traitées à temps.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
 							<span
-								><strong>Stratégie de rémunération :</strong> Arbitrages personnalisés entre salaires,
-								dividendes et primes de direction.</span
+								><strong>Stratégie de rémunération :</strong> arbitrage personnalisé entre salaire, rémunération et dividendes pour maximiser votre net.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
 							<span
-								><strong>Sécurisation fiscale :</strong> Veille réglementaire permanente et accompagnement
-								proactif en cas de contrôle.</span
+								><strong>Sécurisation fiscale :</strong> veille réglementaire continue et accompagnement complet en cas de contrôle.</span
 							>
 						</li>
 					</ul>
 				</div>
 				<div
-					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-mono font-bold text-emerald-600"
+					class="relative pt-4 border-t border-slate-100 flex justify-between items-center text-xs font-display font-bold text-emerald-600"
 				>
 					<span class="flex items-center gap-1.5"
-						><i class="fa-solid fa-chart-pie text-sm"></i> Rationalisation IS / IR</span
+						><i class="fa-solid fa-chart-pie text-sm"></i> Comparatif IS / IR</span
 					>
 					<i class="fa-solid fa-arrow-right-long group-hover:translate-x-1.5 transition-transform"
 					></i>
@@ -648,15 +608,14 @@
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<!-- Section Header -->
 		<div class="max-w-2xl mx-auto text-center mb-14">
-			<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block font-mono mb-3"
-				>Pourquoi Audaxem</span
+			<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block font-display mb-3"
+				>pourquoi choisir audaxem conseil ?</span
 			>
 			<h2 class="font-display text-2xl sm:text-3xl font-extrabold text-ax-textDark tracking-tight">
 				Des arguments concrets, pas des promesses
 			</h2>
 			<p class="text-sm text-ax-textMuted mt-4 leading-relaxed">
-				Choisir Audaxem, c'est choisir un cabinet qui conjugue exigence technique, modernité et
-				vraie proximité.
+				Choisir Audaxem Conseil, c'est choisir un cabinet qui conjugue exigence technique, modernité et vraie proximité.
 			</p>
 		</div>
 
@@ -664,7 +623,7 @@
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 			<!-- Argument 1 -->
 			<div class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50">
-				<span class="font-mono text-xs font-extrabold text-ax-primary">01</span>
+				<span class="font-display text-xs font-extrabold text-ax-primary">01</span>
 				<h3 class="text-sm font-display font-extrabold text-ax-textDark mt-2 mb-2">
 					Un interlocuteur unique
 				</h3>
@@ -676,7 +635,7 @@
 
 			<!-- Argument 2 -->
 			<div class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50">
-				<span class="font-mono text-xs font-extrabold text-ax-primary">02</span>
+				<span class="font-display text-xs font-extrabold text-ax-primary">02</span>
 				<h3 class="text-sm font-display font-extrabold text-ax-textDark mt-2 mb-2">
 					100 % digital, sans la distance
 				</h3>
@@ -688,7 +647,7 @@
 
 			<!-- Argument 3 -->
 			<div class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50">
-				<span class="font-mono text-xs font-extrabold text-ax-primary">03</span>
+				<span class="font-display text-xs font-extrabold text-ax-primary">03</span>
 				<h3 class="text-sm font-display font-extrabold text-ax-textDark mt-2 mb-2">
 					Réactivité garantie
 				</h3>
@@ -699,7 +658,7 @@
 
 			<!-- Argument 4 -->
 			<div class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50">
-				<span class="font-mono text-xs font-extrabold text-ax-primary">04</span>
+				<span class="font-display text-xs font-extrabold text-ax-primary">04</span>
 				<h3 class="text-sm font-display font-extrabold text-ax-textDark mt-2 mb-2">
 					Conseil à forte valeur
 				</h3>
@@ -711,7 +670,7 @@
 
 			<!-- Argument 5 -->
 			<div class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50">
-				<span class="font-mono text-xs font-extrabold text-ax-primary">05</span>
+				<span class="font-display text-xs font-extrabold text-ax-primary">05</span>
 				<h3 class="text-sm font-display font-extrabold text-ax-textDark mt-2 mb-2">
 					Transparence totale
 				</h3>
@@ -722,7 +681,7 @@
 
 			<!-- Argument 6 -->
 			<div class="bg-ax-slate p-6 rounded-2xl border border-slate-200/50">
-				<span class="font-mono text-xs font-extrabold text-ax-primary">06</span>
+				<span class="font-display text-xs font-extrabold text-ax-primary">06</span>
 				<h3 class="text-sm font-display font-extrabold text-ax-textDark mt-2 mb-2">
 					Expert-comptable inscrit à l'Ordre
 				</h3>
@@ -761,7 +720,7 @@
 						"Ce qui me motive profondément, c’est de créer une vraie proximité avec mes clients et
 						de les accompagner avec engagement et bienveillance."
 					</p>
-					<h5 class="text-[10px] font-bold text-ax-textDark mt-3 text-right font-mono">
+					<h5 class="text-[10px] font-bold text-ax-textDark mt-3 text-right font-display">
 						— Yaniv Choukroun, fondateur du cabinet Audaxem Conseil
 					</h5>
 					<a
@@ -775,11 +734,11 @@
 
 			<!-- Right: Full Bio Presentation Content -->
 			<div class="lg:col-span-7 space-y-6">
-				<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block font-mono"
+				<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block font-display"
 					>À propos de l'Expert Comptable</span
 				>
 				<h2 class="font-display text-3xl font-extrabold text-ax-textDark leading-tight">
-					Une vision humaine de l'expertise comptable
+					Une vision moderne de l'expertise comptable
 				</h2>
 
 				<div class="prose prose-slate text-sm text-ax-textMuted leading-relaxed space-y-4">
@@ -842,7 +801,7 @@
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center max-w-2xl mx-auto mb-16">
 			<span
-				class="text-ax-primary font-bold text-xs uppercase tracking-widest block mb-3 font-mono bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full"
+				class="text-ax-primary font-bold text-xs uppercase tracking-widest block mb-3 font-display bg-blue-50 w-fit mx-auto px-3 py-1 rounded-full"
 			>
 				Contact & RDV
 			</span>
@@ -871,7 +830,7 @@
 							Cabinet Audaxem Conseil
 						</h3>
 
-						<div class="space-y-6 text-xs text-slate-300 font-mono">
+						<div class="space-y-6 text-xs text-slate-300 font-display">
 							<div class="flex items-start gap-4">
 								<div
 									class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-ax-primary flex-shrink-0"
@@ -941,7 +900,7 @@
 						<a
 							href="https://wa.me/33603962664"
 							target="_blank"
-							class="inline-flex w-full items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-xl text-xs font-mono transition-all shadow-lg shadow-emerald-950/50"
+							class="inline-flex w-full items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-xl text-xs font-display transition-all shadow-lg shadow-emerald-950/50"
 						>
 							<i class="fa-brands fa-whatsapp text-sm"></i> Écrire sur WhatsApp
 						</a>
@@ -991,19 +950,19 @@
 										: 'bg-white border-slate-200 hover:bg-slate-50 text-ax-textDark'}"
 									onclick={() => ($form.selectedDay = day)}
 								>
-									<span class="text-[9px] uppercase font-mono tracking-wider opacity-75">
+									<span class="text-[9px] uppercase font-display tracking-wider opacity-75">
 										{daysLabelArray[i]}
 									</span>
 									<span class="text-sm font-black mt-1">{day}</span>
 								</button>
 							{/each}
 						</div>
-						{#if $errors.selectedDay}<p class="text-rose-500 text-[11px] font-mono mt-1">
+						{#if $errors.selectedDay}<p class="text-rose-500 text-[11px] font-display mt-1">
 								{$errors.selectedDay}
 							</p>{/if}
 
 						<h4
-							class="text-[11px] font-mono font-bold text-ax-textMuted mb-3 uppercase tracking-wider"
+							class="text-[11px] font-display font-bold text-ax-textMuted mb-3 uppercase tracking-wider"
 						>
 							Sélectionnez une heure
 						</h4>
@@ -1011,7 +970,7 @@
 							{#each listHours as hour}
 								<button
 									type="button"
-									class="p-2.5 rounded-xl text-xs font-mono font-bold text-center transition-all border {$form.selectedHour ===
+									class="p-2.5 rounded-xl text-xs font-display font-bold text-center transition-all border {$form.selectedHour ===
 									hour
 										? 'bg-ax-deep text-white border-ax-deep shadow-md'
 										: 'bg-white border-slate-200 hover:border-slate-400 text-ax-textDark'}"
@@ -1021,7 +980,7 @@
 								</button>
 							{/each}
 						</div>
-						{#if $errors.selectedHour}<p class="text-rose-500 text-[11px] font-mono mt-1">
+						{#if $errors.selectedHour}<p class="text-rose-500 text-[11px] font-display mt-1">
 								{$errors.selectedHour}
 							</p>{/if}
 					</div>
@@ -1031,7 +990,7 @@
 						<input type="hidden" name="selectedHour" bind:value={$form.selectedHour} />
 
 						<div
-							class="bg-slate-50 rounded-xl p-3 border border-slate-150 font-mono text-xs flex justify-between items-center"
+							class="bg-slate-50 rounded-xl p-3 border border-slate-150 font-display text-xs flex justify-between items-center"
 						>
 							<span class="text-ax-textMuted">Rendez-vous choisi :</span>
 							<span class="font-bold text-ax-primary">
@@ -1055,7 +1014,7 @@
 										? 'border-rose-400 focus:border-rose-500'
 										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
 								/>
-								{#if $errors.name}<span class="text-rose-500 text-[10px] font-mono mt-1"
+								{#if $errors.name}<span class="text-rose-500 text-[10px] font-display mt-1"
 										>{$errors.name}</span
 									>{/if}
 							</div>
@@ -1070,7 +1029,7 @@
 										? 'border-rose-400 focus:border-rose-500'
 										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
 								/>
-								{#if $errors.email}<span class="text-rose-500 text-[10px] font-mono mt-1"
+								{#if $errors.email}<span class="text-rose-500 text-[10px] font-display mt-1"
 										>{$errors.email}</span
 									>{/if}
 							</div>
@@ -1088,7 +1047,7 @@
 										? 'border-rose-400 focus:border-rose-500'
 										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
 								/>
-								{#if $errors.phone}<span class="text-rose-500 text-[10px] font-mono mt-1"
+								{#if $errors.phone}<span class="text-rose-500 text-[10px] font-display mt-1"
 										>{$errors.phone}</span
 									>{/if}
 							</div>
@@ -1114,7 +1073,7 @@
 			<!-- Section Header -->
 			<div class="flex flex-col items-center text-center mb-10">
 				<div
-					class="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full text-amber-500 font-mono text-xs font-bold mb-3 shadow-sm"
+					class="flex items-center gap-1 bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-full text-amber-500 font-display text-xs font-bold mb-3 shadow-sm"
 				>
 					<i class="fa-solid fa-star"></i>
 					<i class="fa-solid fa-star"></i>
@@ -1152,7 +1111,7 @@
 						class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
 					>
 						<span class="font-bold text-ax-textDark">Alexandre M. • Consultant</span>
-						<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+						<span class="text-slate-400 font-display text-[10px] flex items-center gap-1"
 							><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
 						>
 					</div>
@@ -1178,7 +1137,7 @@
 						class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
 					>
 						<span class="font-bold text-ax-textDark">Marine D. • Co-fondatrice Agence</span>
-						<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+						<span class="text-slate-400 font-display text-[10px] flex items-center gap-1"
 							><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
 						>
 					</div>
@@ -1204,7 +1163,7 @@
 						class="mt-4 pt-4 border-t border-slate-200/40 flex items-center justify-between text-[11px]"
 					>
 						<span class="font-bold text-ax-textDark">Thomas L. • Artisan d'art</span>
-						<span class="text-slate-400 font-mono text-[10px] flex items-center gap-1"
+						<span class="text-slate-400 font-display text-[10px] flex items-center gap-1"
 							><i class="fa-brands fa-google text-amber-500"></i> Avis vérifié</span
 						>
 					</div>
@@ -1219,7 +1178,7 @@
 		class="fixed inset-0 bg-ax-deep/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
 	>
 		<div
-			class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-mono text-xs"
+			class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-display text-xs"
 		>
 			<div
 				class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl"
@@ -1251,7 +1210,7 @@
 	class="hidden fixed inset-0 bg-ax-deep/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
 >
 	<div
-		class="bg-white rounded-2xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-mono text-xs"
+		class="bg-white rounded-2xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4 shadow-2xl font-display text-xs"
 	>
 		<div
 			class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl"
@@ -1280,7 +1239,7 @@
 	target="_blank"
 	class="fixed bottom-6 right-6 z-50 flex items-center justify-center bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-all flex-shrink-0 px-6 py-3 gap-4"
 >
-	<span class="text-xs font-bold font-mono hidden sm:inline-block h-fit">
+	<span class="text-xs font-bold font-display hidden sm:inline-block h-fit">
 		Discuter avec Yaniv
 	</span>
 	<i class="fa-brands fa-whatsapp text-2xl"></i>
@@ -1309,7 +1268,7 @@
 				<h4 class="text-white font-display font-bold text-xs uppercase tracking-wider">
 					Le Cabinet
 				</h4>
-				<ul class="space-y-3 text-xs text-slate-400 font-mono">
+				<ul class="space-y-3 text-xs text-slate-400 font-display">
 					<li class="flex items-start gap-2">
 						<i class="fa-solid fa-map-location-dot text-ax-primary mt-1"></i>
 						<span>35 Place Gambetta,<br />33000 Bordeaux</span>
@@ -1328,7 +1287,7 @@
 			<!-- Specialties Links -->
 			<div class="space-y-4">
 				<h4 class="text-white font-display font-bold text-xs uppercase tracking-wider">Domaines</h4>
-				<ul class="space-y-2 text-xs text-slate-400 font-mono">
+				<ul class="space-y-2 text-xs text-slate-400 font-display">
 					<li>
 						<a href="/" class="hover:text-white transition-colors">Accueil</a>
 					</li>
@@ -1347,7 +1306,7 @@
 
 		<!-- Bottom footer info -->
 		<div
-			class="border-t border-slate-800 pt-8 mt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-slate-600 gap-4"
+			class="border-t border-slate-800 pt-8 mt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] font-display text-slate-600 gap-4"
 		>
 			<p>&copy; 2026 Audaxem Conseil. Dirigé par Yaniv Choukroun. Tous droits réservés.</p>
 			<div class="flex gap-4">
