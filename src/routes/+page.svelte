@@ -134,7 +134,10 @@
 
 				<div class="h-6 w-px bg-slate-200"></div>
 
-				<a href="tel:0603962664" class="text-[#0F4585] font-display text-sm flex items-center gap-2">
+				<a
+					href="tel:0603962664"
+					class="text-[#0F4585] font-display text-sm flex items-center gap-2"
+				>
 					<i class="fa-solid fa-phone text-ax-primary text-xs"></i> 06 03 96 26 64
 				</a>
 				<a
@@ -377,19 +380,22 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
 							<span
-								><strong>Tenue & supervision :</strong> nous assurons une tenue rigoureuse et un pilotage continu de votre comptabilité pour garder une vision claire de votre activité.</span
+								><strong>Tenue & supervision :</strong> nous assurons une tenue rigoureuse et un pilotage
+								continu de votre comptabilité pour garder une vision claire de votre activité.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
 							<span
-								><strong>États financiers :</strong> bilan, compte de résultat et liasse fiscale établis avec précision et transmis dans les échéances légales, sans stress.</span
+								><strong>États financiers :</strong> bilan, compte de résultat et liasse fiscale établis
+								avec précision et transmis dans les échéances légales, sans stress.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-ax-primary mt-0.5"></i>
 							<span
-								><strong>Tableaux de bord :</strong> une lecture simple et actionnable de votre trésorerie pour piloter sereinement et décider plus vite.</span
+								><strong>Tableaux de bord :</strong> une lecture simple et actionnable de votre trésorerie
+								pour piloter sereinement et décider plus vite.</span
 							>
 						</li>
 					</ul>
@@ -442,19 +448,22 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
 							<span
-								><strong>Bulletins de paie :</strong> des bulletins conformes, livrés en 48h, avec gestion fluide des absences et congés.</span
+								><strong>Bulletins de paie :</strong> des bulletins conformes, livrés en 48h, avec gestion
+								fluide des absences et congés.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
 							<span
-								><strong>Déclarations sociales :</strong> DSN télétransmises en toute sécurité et échanges maîtrisés avec les organismes.</span
+								><strong>Déclarations sociales :</strong> DSN télétransmises en toute sécurité et échanges
+								maîtrisés avec les organismes.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-purple-500 mt-0.5"></i>
 							<span
-								><strong>Sécurité juridique :</strong> contrats, avenants et procédures de rupture rédigés avec précision et conformité.</span
+								><strong>Sécurité juridique :</strong> contrats, avenants et procédures de rupture rédigés
+								avec précision et conformité.</span
 							>
 						</li>
 					</ul>
@@ -507,19 +516,22 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
 							<span
-								><strong>Création d'entreprise :</strong> du choix de la forme sociale jusqu’au Kbis : un accompagnement complet et rapide.</span
+								><strong>Création d'entreprise :</strong> du choix de la forme sociale jusqu’au Kbis :
+								un accompagnement complet et rapide.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
 							<span
-								><strong>Secrétariat juridique annuel :</strong> PV d’assemblées générales rédigés et comptes déposés au greffe dans les délais.</span
+								><strong>Secrétariat juridique annuel :</strong> PV d’assemblées générales rédigés et
+								comptes déposés au greffe dans les délais.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-orange-500 mt-0.5"></i>
 							<span
-								><strong>Modifications statutaires :</strong> transfert de siège, augmentation de capital, changement d’objet : vos évolutions, traitées sans friction.</span
+								><strong>Modifications statutaires :</strong> transfert de siège, augmentation de capital,
+								changement d’objet : vos évolutions, traitées sans friction.</span
 							>
 						</li>
 					</ul>
@@ -572,19 +584,22 @@
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
 							<span
-								><strong>Déclarations d'impôts :</strong> vos déclarations fiscales (TVA, IS, CVAE, CFE...) optimisées et traitées à temps.</span
+								><strong>Déclarations d'impôts :</strong> vos déclarations fiscales (TVA, IS, CVAE, CFE...)
+								optimisées et traitées à temps.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
 							<span
-								><strong>Stratégie de rémunération :</strong> arbitrage personnalisé entre salaire, rémunération et dividendes pour maximiser votre net.</span
+								><strong>Stratégie de rémunération :</strong> arbitrage personnalisé entre salaire, rémunération
+								et dividendes pour maximiser votre net.</span
 							>
 						</li>
 						<li class="flex items-start gap-2.5 text-xs text-ax-textMuted">
 							<i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i>
 							<span
-								><strong>Sécurisation fiscale :</strong> veille réglementaire continue et accompagnement complet en cas de contrôle.</span
+								><strong>Sécurisation fiscale :</strong> veille réglementaire continue et accompagnement
+								complet en cas de contrôle.</span
 							>
 						</li>
 					</ul>
@@ -608,14 +623,16 @@
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<!-- Section Header -->
 		<div class="max-w-2xl mx-auto text-center mb-14">
-			<span class="text-ax-primary font-bold text-xs uppercase tracking-widest block font-display mb-3"
+			<span
+				class="text-ax-primary font-bold text-xs uppercase tracking-widest block font-display mb-3"
 				>pourquoi choisir audaxem conseil ?</span
 			>
 			<h2 class="font-display text-2xl sm:text-3xl font-extrabold text-ax-textDark tracking-tight">
 				Des arguments concrets, pas des promesses
 			</h2>
 			<p class="text-sm text-ax-textMuted mt-4 leading-relaxed">
-				Choisir Audaxem Conseil, c'est choisir un cabinet qui conjugue exigence technique, modernité et vraie proximité.
+				Choisir Audaxem Conseil, c'est choisir un cabinet qui conjugue exigence technique, modernité
+				et vraie proximité.
 			</p>
 		</div>
 
@@ -726,9 +743,11 @@
 					<a
 						href="https://www.linkedin.com/in/yaniv-choukroun-07579018a/"
 						target="_blank"
-						class="text-xs text-ax-primary underline font-bold mt-2 ml-auto"
-						>Découvrir son parcours</a
+						class="text-xs text-ax-primary underline font-bold mt-2 mx-auto flex gap-2 items-center justify-center"
 					>
+						<span>Découvrir son parcours</span>
+						<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 72 72" width="20"><g fill="none" fill-rule="evenodd"><path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z" fill="#007EBB"/><path d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z" fill="#FFF"/></g></svg>
+					</a>
 				</div>
 			</div>
 
