@@ -15,19 +15,9 @@
 		}
 	});
 
-	let mBtn;
-	let mMenu;
-
 	// todo: avis google
-	// todo: a propos rendre humain
 
 	onMount(() => {
-		mBtn = document.getElementById('mobile-menu-btn');
-		mMenu = document.getElementById('mobile-menu');
-		mBtn.addEventListener('click', () => mMenu.classList.toggle('hidden'));
-		document.querySelectorAll('#mobile-menu a').forEach((link) => {
-			link.addEventListener('click', () => mMenu.classList.add('hidden'));
-		});
 		startTypewriter();
 	});
 
@@ -91,106 +81,6 @@
 		if (direction === 'next') calendarWeekOffset++;
 	}
 </script>
-
-<nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex justify-between h-20">
-			<!-- Logo Left: Combined text in dark blue -->
-			<div class="flex items-center">
-				<a href="/" class="flex items-center space-x-3">
-					<img src={logo} class="w-20 h-20" />
-					<div class="flex flex-col">
-						<span
-							class="font-display text-2xl font-extrabold tracking-tight leading-tight text-[#0F4585]"
-						>
-							Audaxem Conseil
-						</span>
-					</div>
-				</a>
-			</div>
-
-			<!-- Desktop Nav Tabs (Accueil, Services, A propos, Contact) -->
-			<div class="hidden md:flex items-center space-x-8">
-				<a
-					href="/"
-					class="text-ax-textMuted hover:text-ax-primary font-semibold text-sm transition-colors"
-					>Accueil</a
-				>
-				<a
-					href="#services"
-					class="text-ax-textMuted hover:text-ax-primary font-semibold text-sm transition-colors"
-					>Services</a
-				>
-				<a
-					href="#a-propos"
-					class="text-ax-textMuted hover:text-ax-primary font-semibold text-sm transition-colors"
-					>À propos</a
-				>
-				<a
-					href="#contact"
-					class="text-ax-textMuted hover:text-ax-primary font-semibold text-sm transition-colors"
-					>Contact</a
-				>
-
-				<div class="h-6 w-px bg-slate-200"></div>
-
-				<a
-					href="tel:0603962664"
-					class="text-[#0F4585] font-display text-sm flex items-center gap-2"
-				>
-					<i class="fa-solid fa-phone text-ax-primary text-xs"></i> 06 03 96 26 64
-				</a>
-				<a
-					href="#contact"
-					class="bg-ax-primary hover:bg-ax-royal text-white text-xs font-bold px-5 py-3 rounded-xl shadow-md transition-all uppercase tracking-wide"
-				>
-					Prendre RDV
-				</a>
-			</div>
-
-			<!-- Mobile Menu Button -->
-			<div class="flex items-center md:hidden">
-				<button
-					id="mobile-menu-btn"
-					class="text-[#254789] hover:text-ax-primary focus:outline-none"
-				>
-					<i class="fa-solid fa-bars text-2xl"></i>
-				</button>
-			</div>
-		</div>
-	</div>
-
-	<!-- Mobile Menu -->
-	<div
-		id="mobile-menu"
-		class="hidden md:hidden bg-white border-t border-slate-100 px-4 pt-2 pb-6 space-y-3 shadow-lg"
-	>
-		<a href="/" class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm"
-			>Accueil</a
-		>
-		<a
-			href="#services"
-			class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm">Services</a
-		>
-		<a
-			href="#a-propos"
-			class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm">À propos</a
-		>
-		<a
-			href="#contact"
-			class="block py-2 text-ax-textDark hover:text-ax-primary font-semibold text-sm">Contact</a
-		>
-		<hr class="border-slate-100 my-2" />
-		<a href="tel:0603962664" class="block py-2 text-slate-700 font-display text-sm"
-			><i class="fa-solid fa-phone text-ax-primary mr-1"></i> 06 03 96 26 64</a
-		>
-		<a
-			href="#contact"
-			class="block text-center bg-ax-primary text-white py-3 rounded-xl hover:bg-ax-royal transition-colors uppercase font-bold text-xs"
-			>Prendre RDV</a
-		>
-	</div>
-</nav>
 
 <!-- SECTION 1: ACCUEIL (Hero banner with custom structure and interactive project card) -->
 <section
@@ -726,50 +616,50 @@
 
 				<!-- Quote Bubble -->
 				<div
-									class="relative bg-gradient-to-b from-[#111E38] to-[#0B1528] border border-blue-500/30 p-6 rounded-2xl shadow-xl max-w-80 flex flex-col items-center"
-								>
-									<div
-										class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#111E38] border-t border-l border-blue-500/30 rotate-45"
-									></div>
-									<span class="text-blue-400/25 text-5xl font-serif absolute top-1 left-4 select-none"
-										>“</span
-									>
+					class="relative bg-gradient-to-b from-[#111E38] to-[#0B1528] border border-blue-500/30 p-6 rounded-2xl shadow-xl max-w-80 flex flex-col items-center"
+				>
+					<div
+						class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-[#111E38] border-t border-l border-blue-500/30 rotate-45"
+					></div>
+					<span class="text-blue-400/25 text-5xl font-serif absolute top-1 left-4 select-none"
+						>“</span
+					>
 
-									<p
-										class="text-sm font-bold text-slate-100 italic leading-relaxed text-center relative z-10 pt-2 px-2"
-									>
-										"Ce qui me motive profondément, c’est de créer une vraie proximité avec mes clients et
-										de les accompagner avec engagement et bienveillance."
-									</p>
+					<p
+						class="text-sm font-bold text-slate-100 italic leading-relaxed text-center relative z-10 pt-2 px-2"
+					>
+						"Ce qui me motive profondément, c’est de créer une vraie proximité avec mes clients et
+						de les accompagner avec engagement et bienveillance."
+					</p>
 
-									<div
-										class="w-12 h-0.5 bg-gradient-to-r from-transparent via-blue-400/40 to-transparent my-3"
-									></div>
+					<div
+						class="w-12 h-0.5 bg-gradient-to-r from-transparent via-blue-400/40 to-transparent my-3"
+					></div>
 
-									<h5 class="text-xs md:text-sm font-semibold text-blue-200 text-center tracking-wide">
-										Yaniv Choukroun, fondateur du cabinet Audaxem Conseil
-									</h5>
+					<h5 class="text-xs md:text-sm font-semibold text-blue-200 text-center tracking-wide">
+						Yaniv Choukroun, fondateur du cabinet Audaxem Conseil
+					</h5>
 
-									<a
-										href="https://www.linkedin.com/in/yaniv-choukroun-07579018a/"
-										target="_blank"
-										class="text-lg text-blue-400 hover:text-blue-300 underline font-bold mt-3 transition-colors flex items-center justify-center gap-3"
-									>
-										Découvrir son parcours
+					<a
+						href="https://www.linkedin.com/in/yaniv-choukroun-07579018a/"
+						target="_blank"
+						class="text-xs md:text-sm text-blue-400 hover:text-blue-300 underline font-bold mt-3 transition-colors flex items-center justify-center gap-3"
+					>
+						Découvrir son parcours
 
-										<svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 72 72" width="30"
-											><g fill="none" fill-rule="evenodd"
-												><path
-													d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z"
-													fill="#007EBB"
-												></path><path
-													d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"
-													fill="#FFF"
-												></path></g
-											></svg
-										>
-									</a>
-								</div>
+						<svg xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 0 72 72" width="30"
+							><g fill="none" fill-rule="evenodd"
+								><path
+									d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z"
+									fill="#007EBB"
+								></path><path
+									d="M62,62 L51.315625,62 L51.315625,43.8021149 C51.315625,38.8127542 49.4197917,36.0245323 45.4707031,36.0245323 C41.1746094,36.0245323 38.9300781,38.9261103 38.9300781,43.8021149 L38.9300781,62 L28.6333333,62 L28.6333333,27.3333333 L38.9300781,27.3333333 L38.9300781,32.0029283 C38.9300781,32.0029283 42.0260417,26.2742151 49.3825521,26.2742151 C56.7356771,26.2742151 62,30.7644705 62,40.051212 L62,62 Z M16.349349,22.7940133 C12.8420573,22.7940133 10,19.9296567 10,16.3970067 C10,12.8643566 12.8420573,10 16.349349,10 C19.8566406,10 22.6970052,12.8643566 22.6970052,16.3970067 C22.6970052,19.9296567 19.8566406,22.7940133 16.349349,22.7940133 Z M11.0325521,62 L21.769401,62 L21.769401,27.3333333 L11.0325521,27.3333333 L11.0325521,62 Z"
+									fill="#FFF"
+								></path></g
+							></svg
+						>
+					</a>
+				</div>
 			</div>
 
 			<!-- Right: Full Bio Presentation Content -->
@@ -1286,74 +1176,3 @@
 </a>
 
 <!-- Footer Area (High Contrast, Shades of Blue) -->
-<footer class="bg-ax-deep text-slate-400 pt-16 pb-8 border-t border-slate-800">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-12 mb-12">
-			<!-- Branding -->
-			<div class="space-y-4">
-				<div class="flex items-center space-x-3">
-					<img src={logo} class="w-14 h-14" />
-					<span class="font-display text-base uppercase font-extrabold text-white tracking-tight">
-						Audaxem Conseil
-					</span>
-				</div>
-				<p class="text-xs text-slate-400 leading-relaxed">
-					Cabinet d'expertise-comptable moderne et axé sur le digital. Il propose un accompagnement
-					sur mesure pour optimiser votre gestion comptable, financière et fiscale. Son objectif est
-					de vous faire gagner du temps et de la sérénité pour développer votre activité.
-				</p>
-			</div>
-
-			<!-- Coordinates Place Gambetta -->
-			<div class="space-y-4">
-				<h4 class="text-white font-display font-bold text-xs uppercase tracking-wider">
-					Le Cabinet
-				</h4>
-				<ul class="space-y-3 text-xs text-slate-400 font-display">
-					<li class="flex items-start gap-2">
-						<i class="fa-solid fa-map-location-dot text-ax-primary mt-1"></i>
-						<span>35 Place Gambetta,<br />33000 Bordeaux</span>
-					</li>
-					<li class="flex items-center gap-2">
-						<i class="fa-solid fa-phone text-ax-primary"></i>
-						<a href="tel:0603962664">06 03 96 26 64</a>
-					</li>
-					<li class="flex items-center gap-2">
-						<i class="fa-solid fa-envelope text-ax-primary"></i>
-						<a href="mailto:yaniv.c@audaxem-conseil.fr">yaniv.c@audaxem-conseil.fr</a>
-					</li>
-				</ul>
-			</div>
-
-			<!-- Specialties Links -->
-			<div class="space-y-4">
-				<h4 class="text-white font-display font-bold text-xs uppercase tracking-wider">Domaines</h4>
-				<ul class="space-y-2 text-xs text-slate-400 font-display">
-					<li>
-						<a href="/" class="hover:text-white transition-colors">Accueil</a>
-					</li>
-					<li>
-						<a href="#services" class="hover:text-white transition-colors">Services</a>
-					</li>
-					<li>
-						<a href="#a-propos" class="hover:text-white transition-colors">À propos</a>
-					</li>
-					<li>
-						<a href="#contact" class="hover:text-white transition-colors">Contact</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-
-		<!-- Bottom footer info -->
-		<div
-			class="border-t border-slate-800 pt-8 mt-8 flex flex-col sm:flex-row justify-between items-center text-[10px] font-display text-slate-600 gap-4"
-		>
-			<p>&copy; 2026 Audaxem Conseil. Dirigé par Yaniv Choukroun. Tous droits réservés.</p>
-			<div class="flex gap-4">
-				<a href="#" class="hover:text-white transition-colors">Mentions Légales</a>
-				<a href="#" class="hover:text-white transition-colors">Confidentialité</a>
-			</div>
-		</div>
-	</div>
-</footer>
