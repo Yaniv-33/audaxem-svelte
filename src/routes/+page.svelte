@@ -69,16 +69,65 @@
 	// Données du calendrier
 	const daysLabelArray = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven'];
 	const listHours = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
-	const startingBaseDay = 20;
 
-	// Calcul dynamique des jours de la semaine choisie
-	let computedDays = $derived(
-		Array.from({ length: 5 }, (_, d) => startingBaseDay + calendarWeekOffset * 7 + d)
-	);
+	function getMonday(offset = 0) {
+		const d = new Date();
+		const day = d.getDay();
+		const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Ajustement si dimanche
+		const monday = new Date(d.setDate(diff));
+		monday.setDate(monday.getDate() + offset * 7);
+		monday.setHours(0, 0, 0, 0);
+		return monday;
+	}
 
+	// Calcul réactif des 5 jours ouvrés (Lundi -> Vendredi)
+	let computedDays = $derived.by(() => {
+		const monday = getMonday(calendarWeekOffset);
+		return Array.from({ length: 5 }, (_, i) => {
+			const day = new Date(monday);
+			day.setDate(monday.getDate() + i);
+			return day;
+		});
+	});
+
+	// Affichage dynamique du Mois et de l'Année
+	let currentMonthYear = $derived.by(() => {
+		if (computedDays.length === 0) return '';
+		const firstDay = computedDays[0];
+		const label = firstDay.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+		return label.charAt(0).toUpperCase() + label.slice(1);
+	});
+
+	// Navigation entre les semaines
 	function changeWeek(direction) {
-		if (direction === 'prev' && calendarWeekOffset > 0) calendarWeekOffset--;
-		if (direction === 'next') calendarWeekOffset++;
+		if (direction === 'prev' && calendarWeekOffset > 0) {
+			calendarWeekOffset--;
+		} else if (direction === 'next') {
+			calendarWeekOffset++;
+		}
+	}
+
+	// Helpers de formatage de date
+	function formatDateISO(date) {
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	}
+
+	function formatDayLabel(date) {
+		return date.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '');
+	}
+
+	function formatFullDateReadable(dateStr) {
+		if (!dateStr) return '';
+		const [year, month, day] = dateStr.split('-').map(Number);
+		const date = new Date(year, month - 1, day);
+		return date.toLocaleDateString('fr-FR', {
+			weekday: 'long',
+			day: 'numeric',
+			month: 'long'
+		});
 	}
 </script>
 
@@ -726,7 +775,6 @@
 	</div>
 </section>
 
-<!-- SECTION 4: CONTACT & INTERACTIVE CALENDAR SCHEDULER -->
 <section id="contact" class="py-24 bg-slate-50 border-t border-slate-200/60">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="text-center max-w-2xl mx-auto mb-16">
@@ -744,7 +792,9 @@
 			</p>
 		</div>
 
+	
 		<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+			<!-- Col Gauche : Infos Cabinet -->
 			<div
 				class="lg:col-span-5 bg-ax-deep text-white rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group"
 			>
@@ -838,11 +888,14 @@
 				</div>
 			</div>
 
+{#if false}
+			<!-- Col Droite : Formulaire RDV -->
 			<div
 				class="lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm flex flex-col justify-between"
 			>
 				<form method="POST" action="?/bookAppointment" use:enhance class="space-y-6">
 					<input type="hidden" name="rdv_type" value={selectedProjectType} />
+					
 					<div>
 						<h3
 							class="text-sm font-display font-extrabold text-ax-textDark mb-6 uppercase tracking-wider flex items-center gap-2"
@@ -851,6 +904,7 @@
 							Réserver votre créneau en ligne
 						</h3>
 
+						<!-- Navigation Calendrier -->
 						<div class="flex justify-between items-center mb-4">
 							<button
 								type="button"
@@ -860,7 +914,9 @@
 							>
 								<i class="fa-solid fa-chevron-left text-[10px]"></i> Précédent
 							</button>
-							<span class="font-display font-extrabold text-ax-textDark text-sm">Juillet 2026</span>
+							<span class="font-display font-extrabold text-ax-textDark text-sm">
+								{currentMonthYear}
+							</span>
 							<button
 								type="button"
 								class="text-xs font-bold text-ax-textMuted hover:text-ax-textDark transition-colors flex items-center gap-1"
@@ -870,27 +926,32 @@
 							</button>
 						</div>
 
+						<!-- Jours de la semaine -->
 						<div class="grid grid-cols-5 gap-2 text-center mb-6">
-							{#each computedDays as day, i}
+							{#each computedDays as dateObj}
+								{@const dateIso = formatDateISO(dateObj)}
 								<button
 									type="button"
-									class="p-3 rounded-xl flex flex-col items-center justify-center transition-all border {$form.selectedDay ===
-									day
+									class="p-3 rounded-xl flex flex-col items-center justify-center transition-all border {$form.selectedDate ===
+									dateIso
 										? 'bg-ax-primary text-white border-ax-primary shadow-md shadow-blue-500/25 scale-[1.02]'
 										: 'bg-white border-slate-200 hover:bg-slate-50 text-ax-textDark'}"
-									onclick={() => ($form.selectedDay = day)}
+									onclick={() => ($form.selectedDate = dateIso)}
 								>
 									<span class="text-[9px] uppercase font-display tracking-wider opacity-75">
-										{daysLabelArray[i]}
+										{formatDayLabel(dateObj)}
 									</span>
-									<span class="text-sm font-black mt-1">{day}</span>
+									<span class="text-sm font-black mt-1">{dateObj.getDate()}</span>
 								</button>
 							{/each}
 						</div>
-						{#if $errors.selectedDay}<p class="text-rose-500 text-[11px] font-display mt-1">
-								{$errors.selectedDay}
-							</p>{/if}
+						{#if $errors.selectedDate}
+							<p class="text-rose-500 text-[11px] font-display mt-1">
+								{$errors.selectedDate}
+							</p>
+						{/if}
 
+						<!-- Sélection de l'heure -->
 						<h4
 							class="text-[11px] font-display font-bold text-ax-textMuted mb-3 uppercase tracking-wider"
 						>
@@ -910,28 +971,33 @@
 								</button>
 							{/each}
 						</div>
-						{#if $errors.selectedHour}<p class="text-rose-500 text-[11px] font-display mt-1">
+						{#if $errors.selectedHour}
+							<p class="text-rose-500 text-[11px] font-display mt-1">
 								{$errors.selectedHour}
-							</p>{/if}
+							</p>
+						{/if}
 					</div>
 
 					<div class="space-y-4 border-t border-slate-100 pt-6">
-						<input type="hidden" name="selectedDay" bind:value={$form.selectedDay} />
+						<!-- Inputs cachés transmis au serveur SvelteKit -->
+						<input type="hidden" name="selectedDate" bind:value={$form.selectedDate} />
 						<input type="hidden" name="selectedHour" bind:value={$form.selectedHour} />
 
+						<!-- Récapitulatif -->
 						<div
 							class="bg-slate-50 rounded-xl p-3 border border-slate-150 font-display text-xs flex justify-between items-center"
 						>
 							<span class="text-ax-textMuted">Rendez-vous choisi :</span>
-							<span class="font-bold text-ax-primary">
-								{#if $form.selectedDay && $form.selectedHour}
-									{$form.selectedDay} Juillet 2026 à {$form.selectedHour}
+							<span class="font-bold text-ax-primary capitalize">
+								{#if $form.selectedDate && $form.selectedHour}
+									{formatFullDateReadable($form.selectedDate)} à {$form.selectedHour}
 								{:else}
 									Sélectionnez un jour & un horaire
 								{/if}
 							</span>
 						</div>
 
+						<!-- Champs de contact -->
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 							<div class="flex flex-col">
 								<input
@@ -939,14 +1005,14 @@
 									name="name"
 									bind:value={$form.name}
 									{...$constraints.name}
-									placeholder="Votre nom complet"
+									placeholder="Nom et prénom"
 									class="bg-white border {$errors.name
 										? 'border-rose-400 focus:border-rose-500'
 										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
 								/>
-								{#if $errors.name}<span class="text-rose-500 text-[10px] font-display mt-1"
-										>{$errors.name}</span
-									>{/if}
+								{#if $errors.name}
+									<span class="text-rose-500 text-[10px] font-display mt-1">{$errors.name}</span>
+								{/if}
 							</div>
 							<div class="flex flex-col">
 								<input
@@ -959,9 +1025,9 @@
 										? 'border-rose-400 focus:border-rose-500'
 										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
 								/>
-								{#if $errors.email}<span class="text-rose-500 text-[10px] font-display mt-1"
-										>{$errors.email}</span
-									>{/if}
+								{#if $errors.email}
+									<span class="text-rose-500 text-[10px] font-display mt-1">{$errors.email}</span>
+								{/if}
 							</div>
 						</div>
 
@@ -977,14 +1043,14 @@
 										? 'border-rose-400 focus:border-rose-500'
 										: 'border-slate-200 focus:border-ax-primary'} rounded-xl px-4 py-3 text-xs focus:outline-none transition-colors"
 								/>
-								{#if $errors.phone}<span class="text-rose-500 text-[10px] font-display mt-1"
-										>{$errors.phone}</span
-									>{/if}
+								{#if $errors.phone}
+									<span class="text-rose-500 text-[10px] font-display mt-1">{$errors.phone}</span>
+								{/if}
 							</div>
 							<button
 								type="submit"
 								disabled={$delayed}
-								class="bg-ax-primary hover:bg-ax-royal text-white font-extrabold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-50 shadow-md shadow-blue-500/10"
+								class="bg-ax-primary hover:bg-ax-royal text-white font-extrabold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all disabled:opacity-50 shadow-md shadow-blue-500/10 cursor-pointer"
 							>
 								{#if $delayed}Traitement...{:else}Confirmer le rendez-vous{/if}
 							</button>
@@ -992,6 +1058,11 @@
 					</div>
 				</form>
 			</div>
+{/if}
+			<!-- Calendly inline widget begin -->
+			<div class="calendly-inline-widget lg:col-span-7 bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-sm flex flex-col justify-between" data-url="https://calendly.com/yaniv-c-audaxem-conseil/30min?hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
+			<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+			<!-- Calendly inline widget end -->
 		</div>
 	</div>
 </section>

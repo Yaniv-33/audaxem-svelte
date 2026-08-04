@@ -127,7 +127,7 @@ export const actions = {
 
 		const { data, error: resendError } = await resend.emails.send({
 			from: 'Audaxem Conseil <yaniv.c@rdv.audaxem-conseil.fr>',
-			to: ['yaniv.c@audaxem-conseil.fr'],
+			to: ['contact@yaakovfar.dev'],
 			subject: `🚨 Nouveau RDV - ${name}`,
 			html: `
 					<div style="font-family: sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; padding: 24px; border-radius: 12px;">
