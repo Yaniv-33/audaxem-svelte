@@ -5,32 +5,7 @@ import {
 	GOOGLE_REFRESH_TOKEN,
 	GOOGLE_ACCOUNT_ID,
 	GOOGLE_LOCATION_ID,
-	RESEND_API_KEY
 } from '$env/static/private';
-import { error, fail } from '@sveltejs/kit';
-import { z } from 'zod';
-import { superValidate, message } from 'sveltekit-superforms';
-import { zod4 } from 'sveltekit-superforms/adapters';
-import { Resend } from 'resend';
-
-const resend = new Resend(RESEND_API_KEY);
-
-const appointmentSchema = z.object({
-	name: z
-		.string({ required_error: 'Le nom est obligatoire' })
-		.min(2, 'Le nom doit contenir au moins 2 caractères'),
-	rdv_type: z.string().optional(),
-	email: z
-		.string({ required_error: "L'adresse e-mail est obligatoire" })
-		.email('Adresse e-mail invalide'),
-	phone: z
-		.string({ required_error: 'Le téléphone est obligatoire' })
-		.regex(/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/, 'Numéro de téléphone invalide'),
-	selectedDay: z.number({ required_error: 'Veuillez choisir un jour' }),
-	selectedHour: z
-		.string({ required_error: 'Veuillez choisir un horaire' })
-		.min(1, 'Veuillez choisir un horaire')
-});
 
 async function getGoogleAccessToken() {
 	const res = await fetch('https://oauth2.googleapis.com/token', {
@@ -102,69 +77,7 @@ function starRatingToNumber(starRating) {
 }
 
 export async function load() {
-	const form = await superValidate(zod4(appointmentSchema));
 	const reviews = await getGoogleReviews();
 
-	return { form, reviews };
+	return { reviews };
 }
-
-export const actions = {
-	bookAppointment: async ({ request }) => {
-		const form = await superValidate(request, zod4(appointmentSchema));
-		console.log(form);
-
-		if (!form.valid) {
-			return fail(400, { form });
-		}
-
-		const { name, email, phone, selectedDay, selectedHour, rdv_type } = form.data;
-
-		const rdv_type_text = {
-			"lancer": "Lancer mon entreprise",
-			"changer": "Changer de cabinet",
-			"carre": "Remettre ma compta au carré",
-		}
-
-		const { data, error: resendError } = await resend.emails.send({
-			from: 'Audaxem Conseil <yaniv.c@rdv.audaxem-conseil.fr>',
-			to: ['contact@yaakovfar.dev'],
-			subject: `🚨 Nouveau RDV - ${name}`,
-			html: `
-					<div style="font-family: sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; padding: 24px; border-radius: 12px;">
-							<h2 style="color: #0284c7; margin-bottom: 20px;">🗓 Demande de RDV</h2>
-						<p>Un nouveau créneau a été bloqué depuis le site internet :</p>
-						<table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-							<tr>
-								<td style="padding: 8px 0; font-weight: bold; width: 120px;">Client :</td>
-								<td style="padding: 8px 0;">${name}</td>
-							</tr>
-							<tr>
-								<td style="padding: 8px 0; font-weight: bold; width: 120px;">Sujet :</td>
-								<td style="padding: 8px 0;">${rdv_type_text[rdv_type]}</td>
-							</tr>
-							<tr>
-								<td style="padding: 8px 0; font-weight: bold;">E-mail :</td>
-								<td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td>
-							</tr>
-							<tr>
-								<td style="padding: 8px 0; font-weight: bold;">Téléphone :</td>
-								<td style="padding: 8px 0;"><a href="tel:${phone}">${phone}</a></td>
-							</tr>
-							<tr>
-								<td style="padding: 8px 0; font-weight: bold; color: #0284c7;">Date du RDV :</td>
-								<td style="padding: 8px 0; font-weight: bold; color: #0284c7;">${selectedDay} Juillet 2026 à ${selectedHour}</td>
-							</tr>
-						</table>
-					</div>
-				`
-		});
-
-		if (resendError) {
-			console.error({ resendError });
-			return fail(500, { form });
-		}
-
-		console.log({ data });
-		return message(form, 'Votre conseillé a reçu votre demande de RDV.');
-	}
-};
