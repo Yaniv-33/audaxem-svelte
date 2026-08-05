@@ -8,6 +8,7 @@
 	import logo from '$lib/assets/logo.svg';
 
 	let { data } = $props();
+	$inspect(data)
 
 	onMount(() => {
 		startTypewriter();
