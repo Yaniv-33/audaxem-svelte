@@ -91,7 +91,7 @@ async function debugAccounts(accessToken) {
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   const data = await res.json();
-  console.log(JSON.stringify(data, null, 2));
+  console.log(data);
   return data;
 }
 
@@ -99,7 +99,7 @@ async function debugAccounts(accessToken) {
 export async function load() {
   const accessToken = await getAccessToken();
     await debugAccounts(accessToken);
-    
+
   try {
     const accessToken = await getAccessToken();
 
