@@ -108,20 +108,44 @@ export async function load() {
 
     const reviewsData = await getReviews(accessToken, accountId, locationId);
 
-    return {
-      businessName: title,
-      averageRating: reviewsData.averageRating ?? null,
-      totalReviewCount: reviewsData.totalReviewCount ?? 0,
-      reviews: (reviewsData.reviews ?? []).map((r) => ({
+    const reviews = (reviewsData.reviews ?? []).map((r) => ({
         reviewer: r.reviewer?.displayName ?? 'Anonyme',
-        rating: r.starRating, // "ONE" à "FIVE"
+        rating: map_ratings(r.starRating),
         comment: r.comment ?? '',
         createTime: r.createTime,
         reply: r.reviewReply?.comment ?? null
-      })).filter(el => el.rating === 'FIVE' || el.rating === "FOUR").splice(0, 3)
+      })).filter(el => el.rating === 5 || el.rating === 4)
+
+    return {
+      businessName: title,
+      averageRating: reviewsData.averageRating ?? (reviews.reduce((a, b) => a.rating + b.rating) / reviews.length) ?? null,
+      totalReviewCount: reviewsData.totalReviewCount ?? 0,
+      reviews
     };
   } catch (err) {
     console.error('Erreur chargement avis Google:', err);
     return {}
+  }
+}
+
+function map_ratings(r) {
+  switch (r) {
+  case "ONE":
+    return 1
+    break
+  case "TWO":
+    return 2
+    break
+  case "THREE":
+    return 3
+    break
+  case "FOUR":
+    return 4
+    break
+  case "FIVE":
+    return 5
+    break
+  default:
+    break
   }
 }

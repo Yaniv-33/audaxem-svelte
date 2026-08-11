@@ -9,8 +9,6 @@
 
 	let { data } = $props();
 
-	$inspect(data.reviews)
-
 	onMount(() => {
 		startTypewriter();
 	});
@@ -190,7 +188,7 @@
 <About />
 <ContactSection />
 
-<GoogleReviews reviews={data.reviews} />
+<GoogleReviews reviews={data} />
 
 <!-- Floating Whatsapp Action Button -->
 <a
