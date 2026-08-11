@@ -97,9 +97,6 @@ async function debugAccounts(accessToken) {
 
 // ---- load() SvelteKit ----
 export async function load() {
-  const accessToken = await getAccessToken();
-    await debugAccounts(accessToken);
-
   try {
     const accessToken = await getAccessToken();
 
@@ -121,7 +118,7 @@ export async function load() {
         comment: r.comment ?? '',
         createTime: r.createTime,
         reply: r.reviewReply?.comment ?? null
-      }))
+      })).filter(el => el.rating === 'FIVE' || el.rating === "FOUR").splice(0, 3)
     };
   } catch (err) {
     console.error('Erreur chargement avis Google:', err);

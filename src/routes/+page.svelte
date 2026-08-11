@@ -8,7 +8,8 @@
 	import logo from '$lib/assets/logo.svg';
 
 	let { data } = $props();
-	$inspect(data)
+
+	$inspect(data.reviews)
 
 	onMount(() => {
 		startTypewriter();
@@ -57,7 +58,6 @@
 	];
 </script>
 
-<!-- SECTION 1: ACCUEIL (Hero banner with custom structure and interactive project card) -->
 <section
 	id="accueil"
 	class="relative py-12 lg:py-20 bg-gradient-to-b from-ax-light via-ax-light/40 to-ax-slate overflow-hidden border-b border-slate-200/50"
@@ -190,9 +190,7 @@
 <About />
 <ContactSection />
 
-{#if false}
-	<GoogleReviews />
-{/if}
+<GoogleReviews reviews={data.reviews} />
 
 <!-- Floating Whatsapp Action Button -->
 <a

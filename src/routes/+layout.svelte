@@ -23,20 +23,19 @@
 
 <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex justify-between h-20">
+		<div class="flex justify-between h-20 items-center">
 			<!-- Logo Left: Combined text in dark blue -->
 			<div class="flex items-center">
 				<a href="/" class="flex items-center space-x-3">
 					<img src={logo} class="w-20 h-20" />
-					<div class="flex flex-col">
-						<span
-							class="font-display text-2xl font-extrabold tracking-tight leading-tight text-[#0F4585]"
-						>
-							Audaxem Conseil
-						</span>
-					</div>
 				</a>
 			</div>
+
+			<span
+				class="font-display text-2xl font-extrabold tracking-tight leading-tight text-[#0F4585]"
+			>
+				Audaxem Conseil
+			</span>
 
 			<!-- Desktop Nav Tabs (Accueil, Services, A propos, Contact) -->
 			<div class="hidden md:flex items-center space-x-8">
