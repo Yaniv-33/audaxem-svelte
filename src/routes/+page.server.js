@@ -108,10 +108,18 @@ export async function load() {
 
     const reviewsData = await getReviews(accessToken, accountId, locationId);
 
+    console.log(reviewsData.reviews[0].comment.split("(Original)")[1])
+
     const reviews = (reviewsData.reviews ?? []).map((r) => ({
         reviewer: r.reviewer?.displayName ?? 'Anonyme',
         rating: map_ratings(r.starRating),
-        comment: r.comment ?? '',
+        comment: r.comment.split("(Original)").filter(el => {
+          if (el.startsWith("(Translated by Google)")) {
+            return false
+          } else {
+            return true
+          }
+        })[0].trim() ?? '',
         createTime: r.createTime,
         reply: r.reviewReply?.comment ?? null
       })).filter(el => el.rating === 5 || el.rating === 4)

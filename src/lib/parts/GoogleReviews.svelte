@@ -45,7 +45,7 @@
 									</div>
 
 									<p class="text-xs sm:text-sm text-ax-textMuted leading-relaxed italic">
-										"{item.comment.split('\n')[0]}"
+										"{item.comment}"
 									</p>
 								</div>
 
